@@ -78,3 +78,48 @@ Admin:
 ## Use Case Diagram
 
 ![Use Case Diagram](imgs/UseCase.png)
+
+### A BUYER user can:
+
+WITHOUT LOGIN:
+-	View listings near his entered location and filter through them to select most plausible one
+-	View any listing details, scroll though photos
+-	a Buyer user can send his contact info to the Seller user of the specific listing
+-	Can view and edit Account info
+
+WITH LOGIN:
+-	add a specific listing to his favorite listings 
+
+### A SELLER user can:
+
+(ALWAYS WITH LOGIN)
+-	Add cars for sale
+-	View, Edit, Delete those cars
+-	(feature) in a special menu, option his car to be advertised
+-	View and manage his Notifications (sent to him by Buyer user)
+
+### AN ADMIN user can:
+
+-	Manage Listings/Users (View/Delete)
+
+## Wireframes
+
+Main Directory: Listing of cars
+
+![Main Directory](imgs/mainDir.png)
+
+Account Directory: can signup/in as buyer/seller
+
+![Account Directory](imgs/ReisterPage.png)
+
+Buyer/Seller Account Pages:
+
+![Buyer Account](imgs/AccountPages.PNG)
+
+Car Details (View for Buyer/ Add for Seller)
+
+![Car Details](imgs/CarDetails.png)
+
+Notification snippet for Seller User: the Seller will see a table of the notifications 
+
+![Notification](imgs/notificationsSnip.PNG)
