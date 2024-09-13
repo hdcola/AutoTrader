@@ -114,7 +114,7 @@ Account Directory: can signup/in as buyer/seller
 
 Buyer/Seller Account Pages:
 
-![Buyer Account](imgs/AccountPages.PNG)
+![Buyer Account](imgs/AccountPages.png)
 
 Car Details (View for Buyer/ Add for Seller)
 
@@ -122,4 +122,4 @@ Car Details (View for Buyer/ Add for Seller)
 
 Notification snippet for Seller User: the Seller will see a table of the notifications 
 
-![Notification](imgs/notificationsSnip.PNG)
+![Notification](imgs/notificationsSnip.png)
