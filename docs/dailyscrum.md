@@ -34,5 +34,15 @@
 - assistance Michael with Heroku setup
 3. Need assistance / figure things out:
 
-
+2024/09/13 Michael
+1. Done / not done since last Scrum:
+- Finished rough draft of proposal and presented it
+2. To do until next Scrum:
+- Edit use case diagram post meeting with teacher
+- Finish proposal and submit
+- Begin making templates for login, register and index
+- Set up hosting on clout (Heroku)
+3. Need assistance / figure things out:
+- Figure out heroku
+- Read about htmx
 
