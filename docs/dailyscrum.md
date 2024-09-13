@@ -31,6 +31,8 @@
 - create a project in IntelliJ IDEA
 - Config CI action in GitHub
 - Create DAILY SCRUM file
+- assistance Michael with Heroku setup
 3. Need assistance / figure things out:
+
 
 

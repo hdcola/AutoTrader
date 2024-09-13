@@ -31,6 +31,18 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      - name: Display environment information
+        run: |
+          java -version
+          mvn -version
+
       - name: Run tests
         working-directory: ./carnet
-        run: mvn clean test
+        run: mvn -X test
+
+      - name: Upload surefire reports
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: surefire-reports
+          path: carnet/target/surefire-reports
