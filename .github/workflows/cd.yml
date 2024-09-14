@@ -3,7 +3,6 @@ name: CD - Spring Boot
 on:
   push:
     branches:
-      - main
       - danny-docker
 
 env:
