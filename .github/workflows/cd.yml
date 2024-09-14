@@ -44,7 +44,7 @@ jobs:
 
       - name: Build the Docker image
         working-directory: ./carnet
-        run: docker build -t ghcr.io/$${{ github.repository }}/carnet:latest .
+        run: docker build -t ghcr.io/${{ github.repository }}/carnet:latest .
 
       - name: Push the Docker image
         working-directory: ./carnet
