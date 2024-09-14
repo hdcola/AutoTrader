@@ -1,0 +1,1 @@
+web: java -jar carnet/target/carnet-0.0.1-SNAPSHOT.jar
