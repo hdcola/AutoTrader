@@ -37,7 +37,6 @@ jobs:
           mvn -version
 
       - name: Run tests
-        working-directory: ./carnet
         run: mvn test
 
       - name: Upload surefire reports
