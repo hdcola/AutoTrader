@@ -46,3 +46,29 @@
 - Figure out heroku
 - Read about htmx
 
+2024/09/14 Danny
+1. Done / not done sice last Scrum:
+- create a project in IntelliJ IDEA
+- Config CI action in GitHub
+- Create DAILY SCRUM file
+- assistance Michael with Heroku setup
+- Created Dockerfile for the project and tested it locally
+2. To do until next Scrum:
+- assistance Michael with Heroku setup
+- publish the project to Heroku
+- publish Docker image to GitHub Container Registry
+- publish the project to Render
+- Try to use Hroku Postgres and Render Postgres
+- Use Env variables in the project
+3. Need assistance / figure things out:
+
+2024/09/14 Michael
+1. Done / not done since last Scrum:
+- Submitted proposal
+- Made login/register templates
+- Get Heroku working
+- Sign up for potential db
+2. To do until next Scrum:
+- Test db to see if it works
+- Work on htmx validation in login
+3. Need assistance / figure things out:
