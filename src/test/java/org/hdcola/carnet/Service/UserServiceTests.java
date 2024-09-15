@@ -1,5 +1,6 @@
 package org.hdcola.carnet.Service;
 
+import lombok.NoArgsConstructor;
 import org.hdcola.carnet.DTO.UserRegisterDTO;
 import org.hdcola.carnet.Entity.User;
 import org.hdcola.carnet.Repository.UserRepository;
@@ -8,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.validation.BindingResult;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,6 +18,9 @@ class UserServiceTests {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private BCryptPasswordEncoder passwordEncoder;
 
     @InjectMocks
     private UserService userService;
