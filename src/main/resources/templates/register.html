@@ -19,7 +19,7 @@
 
         <button type="submit" class="btn btn-primary mt-3">Register</button>
     </form>
-    <span th:if="${Success} == false" th:text="'Registration Failed'"/>
+    <span th:if="${#fields.hasErrors()}" th:text="'Registration Failed'"/>
 
     <hr>
     <p>Already have an account?</p>
