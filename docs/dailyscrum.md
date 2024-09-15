@@ -37,7 +37,14 @@
 - publish the project to Render
 3. Need assistance / figure things out:
 
+2024/09/13 Kirill
 
+2. To do
+- Refresh the Mockups
+- Look into db hosting
+- Trello complete
+3. Need Assistance
+- find free database ;(
 
 2024/09/14 Danny
 1. Done / not done sice last Scrum:
