@@ -1,7 +1,6 @@
 package org.hdcola.carnet.Controllers;
 import org.hdcola.carnet.Configs.WebSecurityConfig;
 import org.hdcola.carnet.Repository.UserRepository;
-import org.hdcola.carnet.Service.CustomUserDetailsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

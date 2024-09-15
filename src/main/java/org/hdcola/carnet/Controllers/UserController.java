@@ -4,10 +4,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.hdcola.carnet.DTO.UserRegisterDTO;
 import org.hdcola.carnet.Entity.User;
-import org.hdcola.carnet.Repository.UserRepository;
 import org.hdcola.carnet.Service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,13 +37,22 @@ public class UserController {
 
     @PostMapping("/register")
     public String register(@Valid UserRegisterDTO user, BindingResult result, Model model, RedirectAttributes rb) {
-        userService.register(user, result);
-
-        if(result.hasErrors()) {
-            log.error("Validation errors found:{}", result);
-            return "register";
+        if(!user.getPassword().equals(user.getPassword2())) {
+            result.rejectValue("password2", "password.mismatch", "Passwords do not match");
         }
 
+        if(userService.existsByEmail(user.getEmail())) {
+            result.rejectValue("email", "email.exists", "Email is already in use");
+        }
+
+        if(result.hasErrors()) {
+            log.debug("Validation errors found:{}", result);
+            log.debug("User:{}", user);
+            model.addAttribute("org.springframework.validation.BindingResult.user", result);
+            model.addAttribute("user", user);
+            return "register";
+        }
+        userService.register(user);
         rb.addFlashAttribute("message", "Registration successful. Please login.");
         return "redirect:/login";
     }

@@ -3,26 +3,29 @@ package org.hdcola.carnet.Service;
 import org.hdcola.carnet.DTO.UserRegisterDTO;
 import org.hdcola.carnet.Entity.User;
 import org.hdcola.carnet.Repository.UserRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
 @Service
 public class UserService {
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    public void register(UserRegisterDTO user, BindingResult result) {
+    private final BCryptPasswordEncoder passwordEncoder;
 
-        if(!user.getPassword().equals(user.getPassword2())) {
-            result.rejectValue("password2", null, "Passwords do not match");
-        }
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
-        if(result.hasErrors()) {
-            return;
-        }
-
+    public void register(UserRegisterDTO user) {
         User newUser = new User();
-        newUser.setEmail(user.getUsername());
-        newUser.setPassword(user.getPassword());
+        newUser.setEmail(user.getEmail());
+        String password = passwordEncoder.encode(user.getPassword());
+        newUser.setPassword(password);
         userRepository.save(newUser);
+    }
+
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
     }
 }
