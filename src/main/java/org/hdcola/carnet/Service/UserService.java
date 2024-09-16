@@ -18,6 +18,9 @@ public class UserService {
     }
 
     public void register(UserRegisterDTO user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException("Email is already in use");
+        }
         User newUser = new User();
         newUser.setEmail(user.getEmail());
         String password = passwordEncoder.encode(user.getPassword());
