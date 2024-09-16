@@ -62,3 +62,31 @@
 - Spring Security init
 - Register and Login as Buyer or Seller BE
 3. Need assistance / figure things out:
+
+2024/09/14 Kirill
+
+1. Done
+- Completed Trello
+- set up sql server on google cloud
+2. To do
+- set up local env.(db,security, etc.))
+- connect to heroku
+- learn about htmx
+- start working on seller pages
+3. Need Assistance
+- connect to heroku
+- issues with spring security
+
+2024/09/15 Kirill
+
+1. Done
+- set up local environment without issues
+- started working on seller pages
+- implemented Vin decoder
+2. To do
+- finish seller UI
+- add carPost, edit, delete methods
+- make unit test for car methods
+- push
+- make sure only show seller pages when seller login
+3. Need Assistance
