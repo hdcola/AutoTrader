@@ -1,7 +1,7 @@
 package org.hdcola.carnet.Controllers;
 import org.hdcola.carnet.Configs.WebSecurityConfig;
 import org.hdcola.carnet.Repository.UserRepository;
-import org.hdcola.carnet.Service.CustomUserDetailsService;
+import org.hdcola.carnet.Service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -21,6 +21,9 @@ public class HomeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @MockBean
+    private UserService userService;
 
     @MockBean
     private UserRepository userRepository;

@@ -21,6 +21,8 @@ public class WebSecurityConfig  {
                 .authorizeHttpRequests(
                         (requests) -> requests
                                 .requestMatchers("/register","/login", "/").permitAll()
+                                .requestMatchers("/buyer").hasRole("BUYER")
+                                .requestMatchers("/seller").hasRole("SELLER")
                                 .anyRequest().permitAll()
                 )
                 .formLogin(
