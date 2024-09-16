@@ -53,4 +53,11 @@ public class UserController {
         rb.addFlashAttribute("message", "Registration successful. Please login.");
         return "redirect:/login";
     }
+
+    @GetMapping("/seller")
+    public String seller(Model model) {
+        User user = new User();
+        model.addAttribute("user", user);
+        return "seller";
+    }
 }
