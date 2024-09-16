@@ -2,6 +2,7 @@ package org.hdcola.carnet.Controllers;
 
 import org.hdcola.carnet.Configs.WebSecurityConfig;
 import org.hdcola.carnet.DTO.UserRegisterDTO;
+import org.hdcola.carnet.Entity.Role;
 import org.hdcola.carnet.Entity.User;
 import org.hdcola.carnet.Repository.UserRepository;
 import org.hdcola.carnet.Service.UserService;
@@ -10,12 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
+
 
 @WebMvcTest
 @Import(WebSecurityConfig.class)
@@ -28,6 +33,8 @@ public class UserControllerTest {
 
     @MockBean
     private UserRepository userRepository;
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Test
     void testRegister_WhenUserAlreadyExists_ShouldReturnRegistrationPageWithError() throws Exception {
@@ -36,6 +43,7 @@ public class UserControllerTest {
         mockMvc.perform( post("/register")
                     .with(SecurityMockMvcRequestPostProcessors.csrf())
                     .param("email", "abc@abc.com")
+                    .param("role", "BUYER")
                     .param("password", "password")
                     .param("password2", "password"))
                 .andExpect( status().isOk() )
@@ -50,10 +58,12 @@ public class UserControllerTest {
         mockMvc.perform(post("/register")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .param("email", "abc")
+                        .param("role", "ADMIN")
                         .param("password", "password")
                         .param("password2", "password2"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("register"))
+                .andExpect(model().attributeHasFieldErrorCode("user", "role", "role.invalid"))
                 .andExpect(model().attributeHasFieldErrorCode("user", "email", "Email"))
                 .andExpect(model().attributeHasFieldErrorCode("user", "password2", "password.mismatch"));
     }
@@ -65,10 +75,32 @@ public class UserControllerTest {
         mockMvc.perform(post("/register")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .param("email", "abc@abc.com")
+                        .param("role", "BUYER")
                         .param("password", "password")
                         .param("password2", "password"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login"))
                 .andExpect(flash().attribute("message", "Registration successful. Please login."));
+    }
+
+    @Test
+    void testLogin_Success() throws Exception {
+
+        when(userRepository.findByEmail("a@a.com")).thenReturn(
+                User.builder()
+                        .email("a@a.com")
+                        .password(passwordEncoder.encode("password"))
+                        .role(Role.BUYER)
+                        .build());
+
+
+        mockMvc.perform(formLogin()
+                .user("a@a.com")
+                .password("password"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(authenticated().withUsername("a@a.com"))
+                .andExpect(authenticated().withRoles("BUYER"))
+                .andExpect(redirectedUrl("/"));
+
     }
 }

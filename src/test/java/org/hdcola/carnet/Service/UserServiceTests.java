@@ -2,6 +2,7 @@ package org.hdcola.carnet.Service;
 
 import lombok.NoArgsConstructor;
 import org.hdcola.carnet.DTO.UserRegisterDTO;
+import org.hdcola.carnet.Entity.Role;
 import org.hdcola.carnet.Entity.User;
 import org.hdcola.carnet.Repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +38,7 @@ class UserServiceTests {
         userRegisterDTO.setPassword("password");
         userRegisterDTO.setPassword2("password");
         userRegisterDTO.setEmail("test@example.com");
+        userRegisterDTO.setRole(Role.BUYER);
 
         userService.register(userRegisterDTO);
 
@@ -44,6 +46,7 @@ class UserServiceTests {
         verify(userRepository).save(argThat(user -> {
                     assertThat(user.getEmail()).isEqualTo("test@example.com");
                     assertThat(user.getPassword()).isEqualTo(passwordEncoder.encode("password"));
+                    assertThat(user.getRole()).isEqualTo(Role.BUYER);
                     return true;
             })
         );
@@ -55,6 +58,7 @@ class UserServiceTests {
         UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
         userRegisterDTO.setPassword("password");
         userRegisterDTO.setPassword2("password");
+        userRegisterDTO.setRole(Role.BUYER);
         userRegisterDTO.setEmail("test@example.com");
 
         when(userRepository.existsByEmail("test@example.com")).thenReturn(true);

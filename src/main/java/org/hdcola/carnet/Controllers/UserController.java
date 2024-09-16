@@ -3,6 +3,7 @@ package org.hdcola.carnet.Controllers;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.hdcola.carnet.DTO.UserRegisterDTO;
+import org.hdcola.carnet.Entity.Role;
 import org.hdcola.carnet.Entity.User;
 import org.hdcola.carnet.Service.UserService;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -32,6 +35,7 @@ public class UserController {
     public String register(Model model) {
         UserRegisterDTO user = new UserRegisterDTO();
         model.addAttribute("user", user);
+        model.addAttribute("roles", List.of(Role.BUYER, Role.SELLER));
         return "register";
     }
 
@@ -39,6 +43,10 @@ public class UserController {
     public String register(@Valid UserRegisterDTO user, BindingResult result, Model model, RedirectAttributes rb) {
         if(!user.getPassword().equals(user.getPassword2())) {
             result.rejectValue("password2", "password.mismatch", "Passwords do not match");
+        }
+
+        if(!user.getRole().equals(Role.BUYER) && !user.getRole().equals(Role.SELLER)) {
+            result.rejectValue("role", "role.invalid", "Role is invalid");
         }
 
         if(userService.existsByEmail(user.getEmail())) {
@@ -57,3 +65,5 @@ public class UserController {
         return "redirect:/login";
     }
 }
+
+

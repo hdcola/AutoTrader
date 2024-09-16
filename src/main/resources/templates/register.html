@@ -21,6 +21,14 @@
         <input type="password" th:field="*{password2}" id="password2" class="form-control col-4">
         <span th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}" ></span>
 
+        <div class="mb-3">
+            <label>You are:</label>
+            <div th:each="role : ${roles}">
+                <input type="radio" th:field="*{role}" th:value="${role}" th:id="'role-' + ${role}" class="form-check-input">
+                <label th:for="'role-' + ${role}" th:text="${#strings.capitalize(role.name().toLowerCase())}"></label>
+            </div>
+        </div>
+
         <span th:if="${#fields.hasErrors()}" th:text="'Registration Failed'"/>
         <button type="submit" class="btn btn-primary mt-3">Register</button>
     </form>

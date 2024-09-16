@@ -25,6 +25,7 @@ public class UserService {
         newUser.setEmail(user.getEmail());
         String password = passwordEncoder.encode(user.getPassword());
         newUser.setPassword(password);
+        newUser.setRole(user.getRole());
         userRepository.save(newUser);
     }
 
