@@ -61,6 +61,7 @@ class UserServiceTests {
 
         assertThatThrownBy(() -> userService.register(userRegisterDTO))
                 .isInstanceOf(IllegalArgumentException.class);
+        assertThat(userService.existsByEmail("test@example.com")).isTrue();
 
         verify(userRepository, never()).save(any(User.class));
     }
