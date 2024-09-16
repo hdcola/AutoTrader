@@ -77,3 +77,14 @@
 - Test db to see if it works
 - Work on htmx validation in login
 3. Need assistance / figure things out:
+
+2024/09/16 Michael
+1. Done / not done since last Scrum:
+   - HTMX research
+   - Set up db that works with cloud hosting
+2. To do until next Scrum:
+   - Work on fragments (header/footer)
+   - HTMX work
+   - Login unit test
+3. Need assistance / figure things out:
+   - Unit testing
