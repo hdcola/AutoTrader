@@ -103,4 +103,28 @@ public class UserControllerTest {
                 .andExpect(redirectedUrl("/"));
 
     }
+
+    @Test
+    void testIsEmailExists_WhenEmailExists_ShouldReturnErrorMessage() throws Exception {
+        when(userService.existsByEmail("abc@abc.com")).thenReturn(true);
+
+        mockMvc.perform(post("/register/isEmailExists")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .param("email", "abc@abc.com"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("emailCheckMessage", "Email is already in use"))
+                .andExpect(model().attribute("emailCheckMessageClass", "text-danger"));
+    }
+
+    @Test
+    void testIsEmailExists_WhenEmailDoesNotExist_ShouldReturnSuccessMessage() throws Exception {
+        when(userService.existsByEmail("abc@abc.com")).thenReturn(false);
+
+        mockMvc.perform(post("/register/isEmailExists")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .param("email", "abc@abc.com"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("emailCheckMessage", "Email is available"))
+                .andExpect(model().attribute("emailCheckMessageClass", "text-success"));
+    }
 }
