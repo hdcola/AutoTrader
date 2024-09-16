@@ -66,8 +66,7 @@
 - Register and Login as Buyer or Seller BE
 3. Need assistance / figure things out:
 
-
-  2024/09/14 Michael
+2024/09/14 Michael
 1. Done / not done since last Scrum:
 - Submitted proposal
 - Made login/register templates
@@ -76,6 +75,19 @@
 2. To do until next Scrum:
 - Test db to see if it works
 - Work on htmx validation in login
+3. Need assistance / figure things out:
+
+2024/09/14 Danny
+1. Done / not done sice last Scrum:
+- Try to use Cloud Database
+- Spring Security init
+- Register and Login as Buyer or Seller BE
+- Config Test coverage in CI
+- Add Role support in Spring Security
+2. To do until next Scrum:
+- Use htmlx check email in register
+- Email, Telegram, Discord Notifaction
+- Google Login and register
 3. Need assistance / figure things out:
 
 2024/09/16 Michael
