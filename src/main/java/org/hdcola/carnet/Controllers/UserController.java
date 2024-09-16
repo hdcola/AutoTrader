@@ -1,5 +1,6 @@
 package org.hdcola.carnet.Controllers;
 
+import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.hdcola.carnet.DTO.UserRegisterDTO;
@@ -63,6 +64,20 @@ public class UserController {
         userService.register(user);
         rb.addFlashAttribute("message", "Registration successful. Please login.");
         return "redirect:/login";
+    }
+
+    @PostMapping("/register/isEmailExists")
+    public HtmxResponse isEmailExists(String email, Model model) {
+        if( userService.existsByEmail(email) ) {
+            model.addAttribute("emailCheckMessage", "Email is already in use");
+            model.addAttribute("emailCheckMessageClass", "text-danger");
+        }else{
+            model.addAttribute("emailCheckMessage", "Email is available");
+            model.addAttribute("emailCheckMessageClass", "text-success");
+        }
+        return HtmxResponse.builder()
+                .view("register :: email-check")
+                .build();
     }
 }
 
