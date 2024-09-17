@@ -71,6 +71,22 @@ public class UserControllerTest {
     }
 
     @Test
+    void testRegister_WhenRoleIsNotBuyerOrSeller_ShouldReturnRegistrationPageWithError() throws Exception {
+        when(userService.existsByEmail("abc@abc.com")).thenReturn(false);
+
+        mockMvc.perform(post("/register")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .param("email", "a@a.com")
+                        .param("name", "user")
+                        .param("role", "ADMIN")
+                        .param("password", "password")
+                        .param("password2", "password"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("register"))
+                .andExpect(model().attributeHasFieldErrorCode("user", "role", "role.invalid"));
+    }
+
+    @Test
     void testRegister_WhenPasswordsDoNotMatchAndEmailIsNotInvalid_ShouldReturnRegistrationPageWithError() throws Exception {
         when(userService.existsByEmail("abc@abc.com")).thenReturn(false);
 
