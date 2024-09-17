@@ -105,7 +105,6 @@ public class UserControllerTest {
     }
 
     @Test
-<<<<<<< Updated upstream
     void testIsEmailExists_WhenEmailExists_ShouldReturnErrorMessage() throws Exception {
         when(userService.existsByEmail("abc@abc.com")).thenReturn(true);
 
@@ -127,7 +126,9 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("emailCheckMessage", "Email is available"))
                 .andExpect(model().attribute("emailCheckMessageClass", "text-success"));
-=======
+    }
+
+    @Test
     void testLogin_WhenEmailIsNotValid_ShouldReturnLoginAndShowErrorMessage() throws Exception{
 
         when(userRepository.findByEmail("test@mail.com")).thenReturn(
@@ -160,6 +161,5 @@ public class UserControllerTest {
                 .password("password2"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login?error"));
->>>>>>> Stashed changes
     }
 }
