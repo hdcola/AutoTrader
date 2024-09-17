@@ -3,10 +3,13 @@ package org.hdcola.carnet.Controllers;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.hdcola.carnet.DTO.UserOauthChoiceRoleDTO;
 import org.hdcola.carnet.DTO.UserRegisterDTO;
 import org.hdcola.carnet.Entity.Role;
 import org.hdcola.carnet.Entity.User;
 import org.hdcola.carnet.Service.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -78,6 +81,35 @@ public class UserController {
         return HtmxResponse.builder()
                 .view("register :: email-check")
                 .build();
+    }
+
+    @GetMapping("/oauthChoiceRole")
+    public String oauthChoiceRole(Model model, Authentication authentication) {
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        String email = oAuth2User.getAttribute("email");
+
+        UserOauthChoiceRoleDTO user = new UserOauthChoiceRoleDTO(email, Role.NONE);
+        model.addAttribute("user", user);
+        model.addAttribute("roles", List.of(Role.BUYER, Role.SELLER));
+        return "oauthChoiceRole";
+    }
+
+    @PostMapping("/oauthChoiceRole")
+    public String oauthChoiceRole(@Valid UserOauthChoiceRoleDTO user, BindingResult result, Model model, RedirectAttributes rb) {
+        if(!user.getRole().equals(Role.BUYER) && !user.getRole().equals(Role.SELLER)) {
+            result.rejectValue("role", "role.invalid", "Role is invalid");
+        }
+
+        if(result.hasErrors()) {
+            log.debug("Validation errors found:{}", result);
+            log.debug("User:{}", user);
+            model.addAttribute("org.springframework.validation.BindingResult.user", result);
+            model.addAttribute("user", user);
+            return "oauthChoiceRole";
+        }
+        userService.updateRole(user);
+        rb.addFlashAttribute("message", "Registration successful. Please login.");
+        return "redirect:/login";
     }
 }
 

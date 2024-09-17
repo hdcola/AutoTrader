@@ -1,10 +1,12 @@
 package org.hdcola.carnet.Controllers;
 
+import org.hdcola.carnet.Configs.CustomDaoAuthenticationProvider;
 import org.hdcola.carnet.Configs.WebSecurityConfig;
-import org.hdcola.carnet.DTO.UserRegisterDTO;
 import org.hdcola.carnet.Entity.Role;
 import org.hdcola.carnet.Entity.User;
+import org.hdcola.carnet.Handler.OAuth2LoginSuccessHandler;
 import org.hdcola.carnet.Repository.UserRepository;
+import org.hdcola.carnet.Service.CustomUserDetailsService;
 import org.hdcola.carnet.Service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 
 
 @WebMvcTest
-@Import(WebSecurityConfig.class)
+@Import({WebSecurityConfig.class, OAuth2LoginSuccessHandler.class, CustomDaoAuthenticationProvider.class})
 public class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -33,6 +35,7 @@ public class UserControllerTest {
 
     @MockBean
     private UserRepository userRepository;
+
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 

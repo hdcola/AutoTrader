@@ -1,5 +1,6 @@
 package org.hdcola.carnet.Configs;
 
+import org.hdcola.carnet.Handler.OAuth2LoginSuccessHandler;
 import org.hdcola.carnet.Service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,16 +15,25 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig  {
+    private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+
+    public WebSecurityConfig(OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler) {
+        this.oAuth2LoginSuccessHandler = oAuth2LoginSuccessHandler;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(
                         (requests) -> requests
-                                .requestMatchers("/register","/login", "/").permitAll()
+                                .requestMatchers("/register","/login", "/", "/oauth2/**").permitAll()
                                 .requestMatchers("/buyer").hasRole("BUYER")
                                 .requestMatchers("/seller").hasRole("SELLER")
                                 .anyRequest().permitAll()
+                )
+                .oauth2Login((oauth2) -> oauth2
+                        .loginPage("/login")
+                        .successHandler(oAuth2LoginSuccessHandler)
                 )
                 .formLogin(
                         (form) -> form
@@ -39,22 +49,9 @@ public class WebSecurityConfig  {
         return http.build();
     }
 
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
-    @Bean
-    public CustomUserDetailsService userDetailsService() {
-        return new CustomUserDetailsService();
-    }
 
-    @Bean
-    public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
 
-        return authProvider;
-    }
+
+
 }
