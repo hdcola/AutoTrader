@@ -1,0 +1,12 @@
+<div th:replace="fragments/header"></div>
+<div th:fragment="addCar(object, fields)">
+<form th:action="@{/addCar}" th:object="${object}" method="post">
+    <div class="form-group" th:each="field : ${fields}">
+        <label th:for="${field}">[[${field}]]</label>
+        <input th:type="${field}" th:field="*{${field}}" id="${field}" placeholder="Enter ${field}"/>
+        <span th:if="${#fields.hasErrors('${field}')} and ${object != null}" th:errors="*{${field}}"></span>
+    </div>
+</form>
+</div>
+
+

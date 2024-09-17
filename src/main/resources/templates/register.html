@@ -10,13 +10,15 @@
 
 <div class="container">
     <form th:action="@{/register}" th:object="${user}" method="post">
-        <label for="name">Email:</label>
-        <input type="text" th:field="*{email}" id="name" class="form-control col-4"
+        <label for="email">Email:</label>
+        <input type="text" th:field="*{email}" id="email" class="form-control col-4"
                th:attr="hx-post=@{/register/isEmailExists}"
                hx-trigger="blur"
                hx-target="#email-check"
                hx-swap="outerHTML"
         >
+        <input type="text" th:field="">
+
         <span id="email-check" th:fragment="email-check" th:class="${emailCheckMessageClass}" th:text="${emailCheckMessage}"></span>
         <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>
 

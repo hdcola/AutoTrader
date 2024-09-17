@@ -1,6 +1,9 @@
 
 <div th:replace="fragments/header"></div>
+<div class="container" id="main">
+    <button hx-get="/addCarForm" hx-target="#main">Add Car +</button>
 
-
+</div>
+<div th:include="fragments/addCar :: addCar(object, fields)"></div>
 </body>
 </html>

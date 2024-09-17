@@ -33,4 +33,7 @@ public class Car
 
     @NotBlank(message = "Model is mandatory")
     private String model;
+
+    @NotNull(message = "Year is mandatory")
+    private int year;
 }
