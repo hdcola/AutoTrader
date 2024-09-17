@@ -111,9 +111,9 @@ public class UserControllerTest {
         mockMvc.perform(post("/register/isEmailExists")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .param("email", "abc@abc.com"))
-                .andExpect(status().isOk())
-                .andExpect(model().attribute("emailCheckMessage", "Email is already in use"))
-                .andExpect(model().attribute("emailCheckMessageClass", "text-danger"));
+                        .andExpect(status().isOk())
+                        .andExpect(model().attribute("emailCheckMessage", "Email is already in use"))
+                        .andExpect(model().attribute("emailCheckMessageClass", "text-danger"));
     }
 
     @Test
@@ -123,9 +123,9 @@ public class UserControllerTest {
         mockMvc.perform(post("/register/isEmailExists")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .param("email", "abc@abc.com"))
-                .andExpect(status().isOk())
-                .andExpect(model().attribute("emailCheckMessage", "Email is available"))
-                .andExpect(model().attribute("emailCheckMessageClass", "text-success"));
+                        .andExpect(status().isOk())
+                        .andExpect(model().attribute("emailCheckMessage", "Email is available"))
+                        .andExpect(model().attribute("emailCheckMessageClass", "text-success"));
     }
 
     @Test
