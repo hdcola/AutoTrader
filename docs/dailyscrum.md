@@ -90,6 +90,15 @@
 - Email, Telegram, Discord notifactions
 3. Need assistance / figure things out:
 
+2024/09/16 Michael
+1. Done / not done since last Scrum:
+   - htmx validation - danny working on it with me
+2. To do until next Scrum:
+   - Login unit test
+   - Fragments
+3. Need assistance /figure out:
+   - htmx
+
 ---
 
 2024/09/17 Danny
@@ -102,3 +111,16 @@
 - Mort Test for register and login
 - Config Google loing in Heroku
 3. Need assistance / figure things out:
+
+
+2024/09/17 Michael
+1. Done/ not done since last Scrum:
+   - Did not finish fragments (footer still working on)
+   - Finished 2 unit tests for loggin
+2. To do until next Scrum:
+   - Finish fragments
+   - Make settings template
+   - Fully integrate fragments
+   - Work on back end for settings
+3. Need assistance / figure things out:
+   - integrating fragments
