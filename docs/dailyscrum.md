@@ -96,8 +96,9 @@
 1. Done / not done sice last Scrum:
 - Use htmlx check email in register
 - init Google login and register
+- not done Email, Telegram, Discord Notifactions
 2. To do until next Scrum:
 - Deal with more possible situations of login and registration
 - Mort Test for register and login
-- Email, Telegram, Discord Notifactions
+- Config Google loing in Heroku
 3. Need assistance / figure things out:
