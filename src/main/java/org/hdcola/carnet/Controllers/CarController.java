@@ -1,10 +1,15 @@
 package org.hdcola.carnet.Controllers;
 
 import jakarta.validation.Valid;
+import org.hdcola.carnet.Configs.CustomUserDetails;
 import org.hdcola.carnet.Entity.Car;
+import org.hdcola.carnet.Entity.User;
 import org.hdcola.carnet.Repository.CarRepository;
+import org.hdcola.carnet.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,14 +27,16 @@ public class CarController {
     @Autowired
     private CarRepository carRepository;
 
+    @Autowired
+    private UserRepository userRepo;
+
     @GetMapping("/Seller")
-    public ModelAndView listCars(@AuthenticationPrincipal UserDetails userDetails) {
-        ModelAndView mv = new ModelAndView("seller");
+    public String listCars(@AuthenticationPrincipal UserDetails userDetails, Model mv) {
         //mv.addObject("cars", carRepository.findByUser(userDetails.getUsername()));
-        mv.addObject("car", new Car());
+        mv.addAttribute("car", new Car());
         List<String> fields = List.of("VIN", "make", "model", "year");
-        mv.addObject("fields", fields);
-        return mv;
+        mv.addAttribute("fields", fields);
+        return "seller";
     }
 
     @PostMapping("/addCar")
@@ -38,14 +45,19 @@ public class CarController {
             result.getAllErrors().forEach(error -> System.out.println(error.toString()));
             model.addAttribute("Success", false);
             model.addAttribute("errors", result.getAllErrors());
-            return "seller";
+            return "fragments/addCar";
         }
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof CustomUserDetails userDetails) {
+            User author = userRepo.findById(userDetails.getId()).get();
+            car.setUser(author);
+            carRepository.save(car);
+        }
+
         return "seller";
     }
 
-    @GetMapping("/addCarForm")
-    public String addCarForm(Model model) {
-        model.addAttribute("car", new Car());
-        return "fragments/addCar.html :: addCar";
-    }
+
+
 }

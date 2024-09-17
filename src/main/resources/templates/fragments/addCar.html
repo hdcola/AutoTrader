@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
-<body>
+<div th:replace="fragments/header"></div>
 <div th:fragment="addCar">
     <form th:action="@{/addCar}" th:object="${car}" method="post">
         <label for="vin">VIN:</label>
@@ -24,5 +22,4 @@
 </div>
 
 </body>
-
 
