@@ -90,6 +90,8 @@
 - connect to heroku
 - issues with spring security
 
+---
+
 2024/09/16 Kirill
 
 1. Done
@@ -131,8 +133,8 @@
 
 2024/09/17 Kirill
 1. done
-   - simple car ccontroller methods, get and post
-   - started seller front-end, using thymeleaf fragments and htmx
+- simple car ccontroller methods, get and post
+- started seller front-end, using thymeleaf fragments and htmx
 2. to- do
 - make carAdd form
 - make main seller homepage
