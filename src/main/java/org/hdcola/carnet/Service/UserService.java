@@ -42,6 +42,7 @@ public class UserService {
             user = new User();
             user.setEmail(email);
             user.setName(name);
+            user.setPassword("*");
             user.setOauth_provider(provider);
             user.setRole(role);
             userRepository.save(user);
