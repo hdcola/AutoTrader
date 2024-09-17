@@ -76,7 +76,33 @@
 - Work on htmx validation in login
 3. Need assistance / figure things out:
 
----
+2024/09/14 Kirill
+
+1. Done
+- Completed Trello
+- set up sql server on google cloud
+2. To do
+- set up local env.(db,security, etc.))
+- connect to heroku
+- learn about htmx
+- start working on seller pages
+3. Need Assistance
+- connect to heroku
+- issues with spring security
+
+2024/09/16 Kirill
+
+1. Done
+- set up local environment without issues
+- started working on seller pages
+- implemented Vin decoder
+2. To do
+- finish seller UI
+- add carPost, edit, delete methods
+- make unit test for car methods
+- push
+- make sure only show seller pages when seller login
+3. Need Assistance
 
 2024/09/16 Danny
 1. Done / not done sice last Scrum:
@@ -102,3 +128,14 @@
 - Mort Test for register and login
 - Config Google loing in Heroku
 3. Need assistance / figure things out:
+
+2024/09/17 Kirill
+1. done
+   - simple car ccontroller methods, get and post
+   - started seller front-end, using thymeleaf fragments and htmx
+2. to- do
+- make carAdd form
+- make main seller homepage
+- tie together with htmx
+3. issues
+- htmx and thymeleaf rendering issues
