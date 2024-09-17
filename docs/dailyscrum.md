@@ -7,20 +7,17 @@
 3. Where do I need assistance? What do I need to figure out?
 
 2024/09/12 Danny
-
 1. Done / not done sice last Scrum:
-   
 2. To do until next Scrum:
 - talk to the team about the project
 - create ER diagram
 - try JUnit/Mockito/WebMVCTest in Spring Boot/Security project
 - create GitHub repo for the project
-
 3. Need assistance / figure things out:
    
+---
 
 2024/09/13 Danny
-
 1. Done / not done sice last Scrum:
 - talked to the team about the project
 - created ER diagram
@@ -49,6 +46,8 @@
 - Figure out heroku
 - Read about htmx
 
+---
+
 2024/09/14 Danny
 1. Done / not done sice last Scrum:
 - create a project in IntelliJ IDEA
@@ -75,4 +74,30 @@
 2. To do until next Scrum:
 - Test db to see if it works
 - Work on htmx validation in login
+3. Need assistance / figure things out:
+
+---
+
+2024/09/16 Danny
+1. Done / not done sice last Scrum:
+- Try to use Cloud Database
+- Spring Security init
+- Register and Login as Buyer or Seller BE
+- Config Test coverage in CI
+2. To do until next Scrum:
+- Use htmlx check email in register
+- init Google login and register
+- Email, Telegram, Discord notifactions
+3. Need assistance / figure things out:
+
+---
+
+2024/09/17 Danny
+1. Done / not done sice last Scrum:
+- Use htmlx check email in register
+- init Google login and register
+2. To do until next Scrum:
+- Deal with more possible situations of login and registration
+- Mort Test for register and login
+- Email, Telegram, Discord Notifactions
 3. Need assistance / figure things out:
