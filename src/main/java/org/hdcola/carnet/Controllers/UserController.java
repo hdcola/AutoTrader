@@ -83,7 +83,7 @@ public class UserController {
                 .build();
     }
 
-    @GetMapping("/oauthChoiceRole")
+    @GetMapping("/choice-role")
     public String oauthChoiceRole(Model model, Authentication authentication) {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         String email = oAuth2User.getAttribute("email");
@@ -94,7 +94,7 @@ public class UserController {
         return "oauthChoiceRole";
     }
 
-    @PostMapping("/oauthChoiceRole")
+    @PostMapping("/choice-role")
     public String oauthChoiceRole(@Valid UserOauthChoiceRoleDTO user, BindingResult result, Model model, RedirectAttributes rb) {
         if(!user.getRole().equals(Role.BUYER) && !user.getRole().equals(Role.SELLER)) {
             result.rejectValue("role", "role.invalid", "Role is invalid");

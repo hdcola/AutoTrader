@@ -34,7 +34,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             response.sendRedirect("/");
         }else{
             userService.register(email, name, provider, Role.NONE);
-            response.sendRedirect("/oauthChoiceRole");
+            response.sendRedirect("/choice-role");
         }
     }
 }
