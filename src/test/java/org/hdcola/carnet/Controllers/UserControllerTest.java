@@ -2,6 +2,7 @@ package org.hdcola.carnet.Controllers;
 
 import org.hdcola.carnet.Configs.CustomDaoAuthenticationProvider;
 import org.hdcola.carnet.Configs.WebSecurityConfig;
+import org.hdcola.carnet.DTO.UserOauthChoiceRoleDTO;
 import org.hdcola.carnet.Entity.Role;
 import org.hdcola.carnet.Entity.User;
 import org.hdcola.carnet.Handler.OAuth2LoginSuccessHandler;
@@ -13,12 +14,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+import java.util.Map;
+
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
@@ -38,6 +48,69 @@ public class UserControllerTest {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Test
+    void testGetLogin_ShouldReturnLoginPage() throws Exception {
+        mockMvc.perform(get("/login"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("login"))
+                .andExpect(model().attributeExists("user"));
+    }
+
+    @Test
+    void testGetRegister_ShouldReturnRegistrationPage() throws Exception {
+        mockMvc.perform(get("/register"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("register"))
+                .andExpect(model().attributeExists("user"));
+    }
+
+    @Test
+    void testGetOauthChoiceRole_shouldReturnOauthChoiceRolePage() throws Exception {
+        // Create a mock OAuth2User
+        OAuth2User oAuth2User = new DefaultOAuth2User(
+                List.of(new SimpleGrantedAuthority("ROLE_BUYER")),
+                Map.of("email", "test@example.com"),
+                "email"
+        );
+
+        // Create an Authentication object with the mock OAuth2User
+        Authentication authentication = new UsernamePasswordAuthenticationToken(oAuth2User, null, oAuth2User.getAuthorities());
+
+        // Perform the GET request with the authentication
+        mockMvc.perform(get("/choice-role")
+                        .with(SecurityMockMvcRequestPostProcessors.authentication(authentication)))
+                .andExpect(status().isOk())
+                .andExpect(view().name("oauthChoiceRole"))
+                .andExpect(model().attributeExists("user"))
+                .andExpect(model().attributeExists("roles"));
+    }
+
+    @Test
+    void testPostOauthChoiceRole_ShouldUpdateRoleAndRedirect() throws Exception {
+        // Create a mock OAuth2User
+        OAuth2User oAuth2User = new DefaultOAuth2User(
+                List.of(new SimpleGrantedAuthority("ROLE_USER")),
+                Map.of("email", "test@example.com"),
+                "email"
+        );
+
+        // Create an Authentication object with the mock OAuth2User
+        Authentication authentication = new UsernamePasswordAuthenticationToken(oAuth2User, null, oAuth2User.getAuthorities());
+
+        // Mock the userService.updateRole method
+        doNothing().when(userService).updateRole(any(UserOauthChoiceRoleDTO.class));
+
+        // Perform the POST request with the authentication
+        mockMvc.perform(post("/choice-role")
+                        .with(SecurityMockMvcRequestPostProcessors.authentication(authentication))
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .param("email", "test@example.com")
+                        .param("role", "BUYER"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login"))
+                .andExpect(flash().attribute("message", "Registration successful. Please login."));
+    }
 
     @Test
     void testRegister_WhenUserAlreadyExists_ShouldReturnRegistrationPageWithError() throws Exception {
