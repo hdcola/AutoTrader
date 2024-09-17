@@ -38,6 +38,7 @@
 
         <span th:if="${#fields.hasErrors()}" th:text="'Registration Failed'"/>
         <button type="submit" class="btn btn-primary mt-3">Register</button>
+        <a href="/oauth2/authorization/google" class="btn btn-primary mt-3">Register with Google</a>
     </form>
 
     <hr>
