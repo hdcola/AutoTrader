@@ -47,11 +47,27 @@ public class UserControllerTest {
                     .with(SecurityMockMvcRequestPostProcessors.csrf())
                     .param("email", "abc@abc.com")
                     .param("role", "BUYER")
+                    .param("name","user")
                     .param("password", "password")
                     .param("password2", "password"))
                 .andExpect( status().isOk() )
                 .andExpect( view().name("register"))
                 .andExpect(model().attributeHasFieldErrorCode("user", "email", "email.exists"));
+    }
+
+    @Test
+    void testRegister_WhenNameIsEmpty_ShouldReturnRegistrationPageWithError() throws Exception {
+        when(userService.existsByEmail("abc@abc.com")).thenReturn(false);
+
+        mockMvc.perform(post("/register")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .param("email", "a@a.com")
+                        .param("role", "BUYER")
+                        .param("password", "password")
+                        .param("password2", "password"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("register"))
+                .andExpect(model().attributeHasFieldErrorCode("user", "name", "NotBlank"));
     }
 
     @Test
@@ -78,6 +94,7 @@ public class UserControllerTest {
         mockMvc.perform(post("/register")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .param("email", "abc@abc.com")
+                        .param("name", "user")
                         .param("role", "BUYER")
                         .param("password", "password")
                         .param("password2", "password"))
