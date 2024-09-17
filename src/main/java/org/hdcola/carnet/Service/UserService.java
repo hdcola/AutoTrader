@@ -25,6 +25,7 @@ public class UserService {
         }
         User newUser = new User();
         newUser.setEmail(user.getEmail());
+        newUser.setName(user.getName());
         String password = passwordEncoder.encode(user.getPassword());
         newUser.setPassword(password);
         newUser.setRole(user.getRole());
