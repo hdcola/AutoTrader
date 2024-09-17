@@ -1,8 +1,16 @@
 
 <div th:replace="fragments/header"></div>
-<div class="container" id="main">
-    <button hx-get="/loadCarForm" hx-target="#main">Add Car +</button>
-
+<div class="container" id="main" th:if="${Login}">
+    <div th:each="car : ${carList}">
+        <div class="car col-3" >
+            <h3 th:text="${car.make} + ' ' + ${car.model} + ' ' + ${car.year}"></h3>
+            <p th:text="'VIN: ' + ${car.VIN}"></p>
+        </div>
+    </div>
+    <button class="new-car" hx-get="/loadCarForm" hx-target="#main">Add Car +</button>
+</div>
+<div class="container" th:if="${!Login}">
+    <h3>PLease Log in</h3>
 </div>
 </body>
 </html>

@@ -25,17 +25,21 @@ import java.util.List;
 public class CarController {
 
     @Autowired
-    private CarRepository carRepository;
+    private CarRepository carRepo;
 
     @Autowired
     private UserRepository userRepo;
 
     @GetMapping("/Seller")
-    public String listCars(@AuthenticationPrincipal UserDetails userDetails, Model mv) {
-        //mv.addObject("cars", carRepository.findByUser(userDetails.getUsername()));
-        mv.addAttribute("car", new Car());
-        List<String> fields = List.of("VIN", "make", "model", "year");
-        mv.addAttribute("fields", fields);
+    public String listCars(Model mv) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof CustomUserDetails userDetails) {
+            List<Car> carList= carRepo.findByUser(userDetails.getUsername());
+            mv.addAttribute("carList", carList);
+            mv.addAttribute("Login", true);
+        } else {
+            mv.addAttribute("Login", false);
+        }
         return "seller";
     }
 
@@ -52,7 +56,7 @@ public class CarController {
         if (auth != null && auth.getPrincipal() instanceof CustomUserDetails userDetails) {
             User author = userRepo.findById(userDetails.getId()).get();
             car.setUser(author);
-            carRepository.save(car);
+            carRepo.save(car);
         }
 
         return "seller";
