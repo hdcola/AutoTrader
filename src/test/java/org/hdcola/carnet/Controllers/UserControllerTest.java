@@ -105,6 +105,7 @@ public class UserControllerTest {
     }
 
     @Test
+<<<<<<< Updated upstream
     void testIsEmailExists_WhenEmailExists_ShouldReturnErrorMessage() throws Exception {
         when(userService.existsByEmail("abc@abc.com")).thenReturn(true);
 
@@ -126,5 +127,39 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("emailCheckMessage", "Email is available"))
                 .andExpect(model().attribute("emailCheckMessageClass", "text-success"));
+=======
+    void testLogin_WhenEmailIsNotValid_ShouldReturnLoginAndShowErrorMessage() throws Exception{
+
+        when(userRepository.findByEmail("test@mail.com")).thenReturn(
+                User.builder()
+                        .email("test@mail.com")
+                        .password(passwordEncoder.encode("password"))
+                        .role(Role.BUYER)
+                        .build());
+
+        mockMvc.perform(formLogin()
+                .user("a@a.com")
+                .password("password"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login?error"));
+
+    }
+
+    @Test
+    void testLogin_WhenPasswordIsNotValid_ShouldReturnLoginAndShowErrorMessage() throws Exception{
+
+        when(userRepository.findByEmail("test@mail.com")).thenReturn(
+                User.builder()
+                        .email("test@mail.com")
+                        .password(passwordEncoder.encode("password"))
+                        .role(Role.BUYER)
+                        .build());
+
+        mockMvc.perform(formLogin()
+                .user("test@mail.com")
+                .password("password2"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login?error"));
+>>>>>>> Stashed changes
     }
 }
