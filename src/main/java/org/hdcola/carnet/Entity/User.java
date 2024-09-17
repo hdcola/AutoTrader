@@ -25,10 +25,17 @@ public class User {
     @Column(nullable = false, unique = true, length = 64)
     private String email;
 
-    @NotBlank(message = "Password is mandatory")
-    @Size(min = 6, message = "Password should be at least 6 characters")
-    @Column(nullable = false, length = 256)
+    @NotBlank(message = "Name is mandatory")
+    @Size(min = 2, max=64, message = "Name should be between 2 and 64 characters")
+    @Column(nullable = false, length = 64)
+    private String name;
+
+
+    @Column( length = 256)
     private String password;
+
+    @Column(length = 64)
+    private String oauth_provider;
 
     private Role role;
 }

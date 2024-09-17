@@ -1,6 +1,7 @@
 package org.hdcola.carnet.Service;
 
 import lombok.NoArgsConstructor;
+import org.hdcola.carnet.DTO.UserOauthChoiceRoleDTO;
 import org.hdcola.carnet.DTO.UserRegisterDTO;
 import org.hdcola.carnet.Entity.Role;
 import org.hdcola.carnet.Entity.User;
@@ -33,7 +34,7 @@ class UserServiceTests {
     }
 
     @Test
-    void testRegister_Success() {
+    void testRegisterUserRegisterDTO_Success() {
         UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
         userRegisterDTO.setPassword("password");
         userRegisterDTO.setPassword2("password");
@@ -54,7 +55,7 @@ class UserServiceTests {
     }
 
     @Test
-    void testRegister_WhenEmailExists() {
+    void testRegisterUserRegisterDTO_WhenEmailExists() {
         UserRegisterDTO userRegisterDTO = new UserRegisterDTO();
         userRegisterDTO.setPassword("password");
         userRegisterDTO.setPassword2("password");
@@ -70,5 +71,116 @@ class UserServiceTests {
         verify(userRepository, never()).save(any(User.class));
     }
 
+    @Test
+    void testRegister_UserDoesNotExist() {
+        String email = "test@example.com";
+        String name = "Test User";
+        String provider = "google";
+        Role role = Role.BUYER;
 
+        when(userRepository.findByEmail(email)).thenReturn(null);
+        when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
+
+        userService.register(email, name, provider, role);
+
+        verify(userRepository, times(1)).save(argThat(user ->
+                user.getEmail().equals(email) &&
+                        user.getName().equals(name) &&
+                        user.getOauth_provider().equals(provider) &&
+                        user.getRole().equals(role)
+        ));
+    }
+
+    @Test
+    void testRegister_UserExists() {
+        String email = "test@example.com";
+        String name = "Test User";
+        String provider = "google";
+        Role role = Role.BUYER;
+
+        User existingUser = new User();
+        existingUser.setEmail(email);
+
+        when(userRepository.findByEmail(email)).thenReturn(existingUser);
+
+        userService.register(email, name, provider, role);
+
+        verify(userRepository, times(1)).save(argThat(user ->
+                user.getEmail().equals(email) &&
+                        user.getOauth_provider().equals(provider)
+        ));
+    }
+
+    @Test
+    void testAddProvider_UserExists() {
+        String email = "test@example.com";
+        String provider = "google";
+
+        User existingUser = new User();
+        existingUser.setEmail(email);
+
+        when(userRepository.findByEmail(email)).thenReturn(existingUser);
+
+        userService.addProvider(email, provider);
+
+        verify(userRepository, times(1)).save(argThat(user ->
+                user.getEmail().equals(email) &&
+                        user.getOauth_provider().equals(provider)
+        ));
+    }
+
+    @Test
+    void testAddProvider_UserDoesNotExist() {
+        String email = "test@example.com";
+        String provider = "google";
+
+        when(userRepository.findByEmail(email)).thenReturn(null);
+
+        assertThatThrownBy(() -> userService.addProvider(email, provider))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("User not found");
+
+        verify(userRepository, never()).save(any(User.class));
+    }
+    
+    @Test
+    void testUpdateRole_UserExists() {
+        String email = "test@example.com";
+        Role newRole = Role.BUYER;
+
+        User dbUser = new User();
+        dbUser.setEmail(email);
+        dbUser.setRole(Role.NONE);
+
+        when(userRepository.findByEmail(email)).thenReturn(dbUser);
+
+        UserOauthChoiceRoleDTO userDto = new UserOauthChoiceRoleDTO();
+        userDto.setEmail(email);
+        userDto.setRole(newRole);
+
+        userService.updateRole(userDto);
+
+        verify(userRepository, times(1)).save(argThat(user ->
+                user.getEmail().equals(email) &&
+                        user.getRole().equals(newRole)
+        ));
+    }
+
+    @Test
+    void testUpdateRole_UserDoesNotExist() {
+        String email = "test@example.com";
+        Role newRole = Role.BUYER;
+
+        when(userRepository.findByEmail(email)).thenReturn(null);
+
+        UserOauthChoiceRoleDTO userDto = new UserOauthChoiceRoleDTO();
+        userDto.setEmail(email);
+        userDto.setRole(newRole);
+
+        assertThatThrownBy(() -> userService.updateRole(userDto))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("User not found");
+
+        verify(userRepository, never()).save(any(User.class));
+    }
 }

@@ -1,6 +1,8 @@
 package org.hdcola.carnet.Service;
 
+import org.hdcola.carnet.DTO.UserOauthChoiceRoleDTO;
 import org.hdcola.carnet.DTO.UserRegisterDTO;
+import org.hdcola.carnet.Entity.Role;
 import org.hdcola.carnet.Entity.User;
 import org.hdcola.carnet.Repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,6 +25,7 @@ public class UserService {
         }
         User newUser = new User();
         newUser.setEmail(user.getEmail());
+        newUser.setName(user.getName());
         String password = passwordEncoder.encode(user.getPassword());
         newUser.setPassword(password);
         newUser.setRole(user.getRole());
@@ -31,5 +34,39 @@ public class UserService {
 
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    public void register(String email, String name, String provider, Role role) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            user = new User();
+            user.setEmail(email);
+            user.setName(name);
+            user.setPassword("*");
+            user.setOauth_provider(provider);
+            user.setRole(role);
+            userRepository.save(user);
+        }else{
+            user.setOauth_provider(provider);
+            userRepository.save(user);
+        }
+    }
+
+    public void addProvider(String email, String provider) {
+        User user = userRepository.findByEmail(email);
+        if(user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+        user.setOauth_provider(provider);
+        userRepository.save(user);
+    }
+
+    public void updateRole(UserOauthChoiceRoleDTO user) {
+        User dbUser = userRepository.findByEmail(user.getEmail());
+        if(dbUser == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+        dbUser.setRole(user.getRole());
+        userRepository.save(dbUser);
     }
 }
