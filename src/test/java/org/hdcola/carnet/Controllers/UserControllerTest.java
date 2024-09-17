@@ -221,9 +221,9 @@ public class UserControllerTest {
         mockMvc.perform(post("/register/isEmailExists")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .param("email", "abc@abc.com"))
-                .andExpect(status().isOk())
-                .andExpect(model().attribute("emailCheckMessage", "Email is already in use"))
-                .andExpect(model().attribute("emailCheckMessageClass", "text-danger"));
+                        .andExpect(status().isOk())
+                        .andExpect(model().attribute("emailCheckMessage", "Email is already in use"))
+                        .andExpect(model().attribute("emailCheckMessageClass", "text-danger"));
     }
 
     @Test
@@ -233,8 +233,43 @@ public class UserControllerTest {
         mockMvc.perform(post("/register/isEmailExists")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .param("email", "abc@abc.com"))
-                .andExpect(status().isOk())
-                .andExpect(model().attribute("emailCheckMessage", "Email is available"))
-                .andExpect(model().attribute("emailCheckMessageClass", "text-success"));
+                        .andExpect(status().isOk())
+                        .andExpect(model().attribute("emailCheckMessage", "Email is available"))
+                        .andExpect(model().attribute("emailCheckMessageClass", "text-success"));
+    }
+
+    @Test
+    void testLogin_WhenEmailIsNotValid_ShouldReturnLoginAndShowErrorMessage() throws Exception{
+
+        when(userRepository.findByEmail("test@mail.com")).thenReturn(
+                User.builder()
+                        .email("test@mail.com")
+                        .password(passwordEncoder.encode("password"))
+                        .role(Role.BUYER)
+                        .build());
+
+        mockMvc.perform(formLogin()
+                .user("a@a.com")
+                .password("password"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login?error"));
+
+    }
+
+    @Test
+    void testLogin_WhenPasswordIsNotValid_ShouldReturnLoginAndShowErrorMessage() throws Exception{
+
+        when(userRepository.findByEmail("test@mail.com")).thenReturn(
+                User.builder()
+                        .email("test@mail.com")
+                        .password(passwordEncoder.encode("password"))
+                        .role(Role.BUYER)
+                        .build());
+
+        mockMvc.perform(formLogin()
+                .user("test@mail.com")
+                .password("password2"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login?error"));
     }
 }
