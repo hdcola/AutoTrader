@@ -2,6 +2,7 @@ package org.hdcola.carnet.Controllers;
 import org.hdcola.carnet.Configs.CustomDaoAuthenticationProvider;
 import org.hdcola.carnet.Configs.WebSecurityConfig;
 import org.hdcola.carnet.Handler.OAuth2LoginSuccessHandler;
+import org.hdcola.carnet.Repository.CarRepository;
 import org.hdcola.carnet.Repository.UserRepository;
 import org.hdcola.carnet.Service.CustomUserDetailsService;
 import org.hdcola.carnet.Service.UserService;
@@ -27,6 +28,9 @@ public class HomeControllerTest {
 
     @MockBean
     private UserService userService;
+
+    @MockBean
+    private CarRepository carRepository;
 
     @MockBean
     private UserRepository userRepository;
