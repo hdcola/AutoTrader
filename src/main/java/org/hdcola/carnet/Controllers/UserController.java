@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.hdcola.carnet.DTO.UserOauthChoiceRoleDTO;
 import org.hdcola.carnet.DTO.UserRegisterDTO;
+import org.hdcola.carnet.DTO.UserSettingsDTO;
 import org.hdcola.carnet.Entity.Role;
 import org.hdcola.carnet.Entity.User;
 import org.hdcola.carnet.Service.UserService;
@@ -95,7 +96,7 @@ public class UserController {
     }
 
     @PostMapping("/choice-role")
-    public String oauthChoiceRole(@Valid UserOauthChoiceRoleDTO user, BindingResult result, Model model, RedirectAttributes rb) {
+    public String oauthChoiceRole(@Valid UserOauthChoiceRoleDTO user, BindingResult result, Model model, RedirectAttributes rb, Authentication authentication) {
         if(!user.getRole().equals(Role.BUYER) && !user.getRole().equals(Role.SELLER)) {
             result.rejectValue("role", "role.invalid", "Role is invalid");
         }
@@ -107,9 +108,56 @@ public class UserController {
             model.addAttribute("user", user);
             return "oauthChoiceRole";
         }
+
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        String email = oAuth2User.getAttribute("email");
+        user.setEmail(email);
+
         userService.updateRole(user);
         rb.addFlashAttribute("message", "Registration successful. Please login.");
         return "redirect:/login";
+    }
+
+    @GetMapping("/settings")
+    public String settings(Model model, Authentication authentication) {
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        String email = oAuth2User.getAttribute("email");
+
+        UserSettingsDTO user = userService.getUserSettingsDTO(email);
+        model.addAttribute("user", user);
+        model.addAttribute("roles", List.of(Role.BUYER, Role.SELLER));
+        return "settings";
+    }
+
+    @PostMapping("/settings")
+    public String settings(@Valid UserSettingsDTO user, BindingResult result, Model model, RedirectAttributes rb, Authentication authentication) {
+        if(!user.getPassword().equals(user.getPassword2())) {
+            result.rejectValue("password2", "password.mismatch", "Passwords do not match");
+        }
+
+        if(!user.getRole().equals(Role.BUYER) && !user.getRole().equals(Role.SELLER)) {
+            result.rejectValue("role", "role.invalid", "Role is invalid");
+        }
+
+        if(!user.getPassword().isBlank() && (user.getPassword().length() < 6 || user.getPassword().length() > 32)) {
+            result.rejectValue("password", "password.invalid", "Password must be between 6 and 32 characters");
+        }
+
+        if(result.hasErrors()) {
+            log.debug("Validation errors found:{}", result);
+            log.debug("User:{}", user);
+            model.addAttribute("org.springframework.validation.BindingResult.user", result);
+            model.addAttribute("user", user);
+            return "settings";
+        }
+
+        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        String email = oAuth2User.getAttribute("email");
+        user.setEmail(email);
+
+        userService.updateSettings(user);
+        rb.addFlashAttribute("message", "Settings update successful.");
+        return "redirect:/settings";
     }
 }
 

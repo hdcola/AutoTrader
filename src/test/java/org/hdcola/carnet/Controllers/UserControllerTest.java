@@ -7,7 +7,6 @@ import org.hdcola.carnet.Entity.Role;
 import org.hdcola.carnet.Entity.User;
 import org.hdcola.carnet.Handler.OAuth2LoginSuccessHandler;
 import org.hdcola.carnet.Repository.UserRepository;
-import org.hdcola.carnet.Service.CustomUserDetailsService;
 import org.hdcola.carnet.Service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
