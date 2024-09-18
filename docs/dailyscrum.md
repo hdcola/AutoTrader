@@ -172,7 +172,7 @@
 - Config Google loing in Heroku
 2. To do until next Scrum:
 - Email, Telegram, Discord Notifactions
-- 
+- CRUD Users
 3. Need assistance / figure things out:
 
 
