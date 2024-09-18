@@ -187,4 +187,14 @@
 - fix header options (login and logout view)
 3. Need assistance / figure things out:
 - integrating fragments
-  
+
+
+2024/09/18 Kirill
+1. Done / not done sice last Scrum:
+- htmx + thymeleaf works
+- make previous portion functional, mapping to database
+- rudimental ui
+2. To do until next Scrum:
+- configure s3
+- make image transfer available
+3. Need assistance / figure things out:
