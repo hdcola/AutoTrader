@@ -393,6 +393,7 @@ public class UserControllerTest {
 
         // Perform the POST request with the authentication
         mockMvc.perform(post("/settings")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .with(SecurityMockMvcRequestPostProcessors.authentication(authentication))
                         .param("email", "test@example.com")
                         .param("role", "BUYER")
