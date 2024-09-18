@@ -7,7 +7,7 @@
     <script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>
 </head>
 <body>
-
+<div th:insert="~{fragments/header :: header}"></div>
 <div class="container">
     <form th:action="@{/settings}" th:object="${user}" method="post">
         <label th:text="'Eamil:' + *{email}">Email</label>
@@ -37,9 +37,6 @@
         <button type="submit" class="btn btn-primary mt-3">Update</button>
     </form>
 
-    <hr>
-    <p>Already have an account?</p>
-    <a href="/login" class="btn btn-primary">Login</a>
 </div>
 
 <script>
