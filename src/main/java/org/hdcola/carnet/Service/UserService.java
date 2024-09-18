@@ -2,6 +2,7 @@ package org.hdcola.carnet.Service;
 
 import org.hdcola.carnet.DTO.UserOauthChoiceRoleDTO;
 import org.hdcola.carnet.DTO.UserRegisterDTO;
+import org.hdcola.carnet.DTO.UserSettingsDTO;
 import org.hdcola.carnet.Entity.Role;
 import org.hdcola.carnet.Entity.User;
 import org.hdcola.carnet.Repository.UserRepository;
@@ -67,6 +68,32 @@ public class UserService {
             throw new IllegalArgumentException("User not found");
         }
         dbUser.setRole(user.getRole());
+        userRepository.save(dbUser);
+    }
+
+    public UserSettingsDTO getUserSettingsDTO(String email) {
+        User user = userRepository.findByEmail(email);
+        if(user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+        UserSettingsDTO userSettingsDTO = new UserSettingsDTO();
+        userSettingsDTO.setEmail(user.getEmail());
+        userSettingsDTO.setName(user.getName());
+        userSettingsDTO.setRole(user.getRole());
+        return userSettingsDTO;
+    }
+
+    public void updateSettings(UserSettingsDTO user) {
+        User dbUser = userRepository.findByEmail(user.getEmail());
+        if(dbUser == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+        dbUser.setName(user.getName());
+        dbUser.setRole(user.getRole());
+        if(user.getPassword() != null && !user.getPassword().isBlank()) {
+            String password = passwordEncoder.encode(user.getPassword());
+            dbUser.setPassword(password);
+        }
         userRepository.save(dbUser);
     }
 }
