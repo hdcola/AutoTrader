@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - danny
+      - kirill1
   pull_request:
     branches:
       - main

@@ -1,0 +1,30 @@
+<div th:replace="fragments/header"></div>
+<div th:fragment="addCar">
+    <form th:action="@{/addCar}" th:object="${car}" method="post">
+        <label for="vin">VIN:</label>
+        <input type="text" th:field="*{VIN}" id="vin" class="form-control col-4">
+        <span th:if="${#fields.hasErrors('VIN')}" th:errors="*{VIN}"></span>
+
+        <label for="model">Model:</label>
+        <input type="text" th:field="*{model}" id="model" class="form-control col-4">
+        <span th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></span>
+
+        <label for="make">Make:</label>
+        <input type="text" th:field="*{make}" id="make" class="form-control col-4">
+        <span th:if="${#fields.hasErrors('make')}" th:errors="*{make}"></span>
+
+        <label for="year">Year:</label>
+        <input type="number" th:field="*{year}" id="year" min="1900" max="2100" class="form-control col-4">
+        <span th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
+
+        <button type="submit" class="btn btn-primary mt-3">Add Car</button>
+    </form>
+
+    <form action="/post" method="post" enctype="multipart/form-data">
+        <input type="file" id="myFile" name="filename">
+        <input type="submit">
+    </form>
+</div>
+
+</body>
+
