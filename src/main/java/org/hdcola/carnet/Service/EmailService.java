@@ -81,7 +81,7 @@ public class EmailService {
         sendWelcomeEmail(toEmail, name);
     }
 
-    private void sendWelcomeEmail(String toEmail, String name) {
+    void sendWelcomeEmail(String toEmail, String name) {
         String subject = "Welcome to Carnet";
         String template = "email/welcome";
         Map<String, Object> templateModel = Map.of(

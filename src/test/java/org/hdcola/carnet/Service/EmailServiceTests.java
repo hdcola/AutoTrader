@@ -3,6 +3,7 @@ package org.hdcola.carnet.Service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import org.hdcola.carnet.Entity.Role;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -34,6 +35,7 @@ class EmailServiceTests {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        emailService = spy(new EmailService(mailSender, templateEngine));
     }
 
     @Test
@@ -80,4 +82,27 @@ class EmailServiceTests {
 
         // TODO: Add assertions for the sent message
     }
+
+    @Test
+    void testSendWelcomeEmail() throws Exception {
+        String toEmail = "test@example.com";
+        String name = "Test User";
+        Role role = Role.BUYER;
+
+        // Mock the internal method calls
+        doNothing().when(emailService).sendSimpleEmailToAdmin(anyString(), anyString());
+        doNothing().when(emailService).sendThymeleafMail(anyString(), anyString(), anyString(), anyMap());
+
+        // Call the method to test
+        emailService.sendWelcomeEmail(toEmail, name, role);
+
+        // Verify that the internal methods were called with the correct parameters
+        verify(emailService, times(1)).sendSimpleEmailToAdmin(
+                eq("New user registered: " + toEmail),
+                eq(role.name() + " have a new user registered")
+        );
+        verify(emailService, times(1)).sendWelcomeEmail(toEmail, name);
+    }
+
+
 }
