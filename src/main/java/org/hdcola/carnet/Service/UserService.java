@@ -15,9 +15,12 @@ public class UserService {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    private final EmailService emailService;
+
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, EmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     public void register(UserRegisterDTO user) {
@@ -31,6 +34,8 @@ public class UserService {
         newUser.setPassword(password);
         newUser.setRole(user.getRole());
         userRepository.save(newUser);
+
+        emailService.sendWelcomeEmail(user.getEmail(), user.getName(), user.getRole());
     }
 
     public boolean existsByEmail(String email) {
@@ -69,6 +74,8 @@ public class UserService {
         }
         dbUser.setRole(user.getRole());
         userRepository.save(dbUser);
+
+        emailService.sendWelcomeEmail(dbUser.getEmail(), dbUser.getName(), dbUser.getRole());
     }
 
     public UserSettingsDTO getUserSettingsDTO(String email) {

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xml:th="http://www.thymeleaf.org" >
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -9,85 +9,15 @@
 <body>
     <div th:insert="~{fragments/header :: header}"></div>
     <h1>Welcome to CarNet.</h1>
-
-    <div class="container mt-4">
-        <div class="row mb-3">
-            <div class="col-md-6">
-                <h4>CARS NEAR YOU</h4>
-            </div>
-            <div class="col-md-6 text-end">
-                <div class="dropdown">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-target="dropdown" aria-expanded="false">
-                        Filters
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" href="#">Option 1</a> </li>
-                        <li><a class="dropdown-item" href="#">Option 2</a> </li>
-                        <li><a class="dropdown-item" href="#">Option 3</a> </li>
-                        <li><a class="dropdown-item" href="#">Option 4</a> </li>
-                        <li><a class="dropdown-item" href="#">Option 5</a> </li>
-                        <li><a class="dropdown-item" href="#">Option 6</a> </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <!--Car 1-->
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">CAR</h5>
-                        <a href="#" class="btn btn-primary">VIEW</a>
-                    </div>
-                </div>
-            </div>
-            <!--Car 2-->
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">CAR</h5>
-                        <a href="#" class="btn btn-primary">VIEW</a>
-                    </div>
-                </div>
-            </div>
-            <!--Car 3-->
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">CAR</h5>
-                        <a href="#" class="btn btn-primary">VIEW</a>
-                    </div>
-                </div>
-            </div>
-            <!--Car 4-->
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">CAR</h5>
-                        <a href="#" class="btn btn-primary">VIEW</a>
-                    </div>
-                </div>
-            </div>
-            <!--Car 5-->
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">CAR</h5>
-                        <a href="#" class="btn btn-primary">VIEW</a>
-                    </div>
-                </div>
-            </div>
-            <!--Car 6-->
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">CAR</h5>
-                        <a href="#" class="btn btn-primary">VIEW</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div sec:authorize="hasRole('ROLE_BUYER')">
+        <div th:insert="~{fragments/buyerindex :: buyerview}"></div>
     </div>
+    <div sec:authorize="hasRole('ROLE_SELLER')">
+        <div th:insert="~{fragments/sellerindex :: sellerview}"></div>
+    </div>
+    <div sec:authorize="hasRole('ROLE_ADMIN')">
+        <div th:insert="~{fragments/sellerindex :: sellerview}"></div> <!--This is temporary until template is made-->
+    </div>
+    <div th:insert="~{fragments/footer :: footer}"></div>
 </body>
 </html>

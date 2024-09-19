@@ -198,3 +198,16 @@
 - configure s3
 - make image transfer available
 3. Need assistance / figure things out:
+
+---
+
+2024/09/19 Danny
+1. Done / not done sice last Scrum:
+- Setting Admin mail group for notification
+- Telegram Notifactions Service
+- Email Notifactions Service
+- Not do Discord Notifactions(same for telegram)
+- not done CRUD Users
+2. To do until next Scrum:
+- CRUD Users
+3. Need assistance / figure things out:
