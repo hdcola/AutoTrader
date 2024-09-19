@@ -18,7 +18,6 @@ import java.nio.file.Paths;
 @RestController
 public class FileController {
 
-    @Autowired
     private Storage storage;
 
     private CarPictureService carPictureService;
