@@ -10,12 +10,14 @@ import org.hdcola.carnet.Entity.User;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserAdminListDTO {
+    private Long id;
     private String email;
     private String name;
     private Role role;
     private String oauth_provider;
 
     public UserAdminListDTO(User user) {
+        this.id = user.getId();
         this.email = user.getEmail();
         this.name = user.getName();
         this.role = user.getRole();

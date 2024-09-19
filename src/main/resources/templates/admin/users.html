@@ -13,7 +13,7 @@
 <table>
   <thead>
     <tr>
-        <th>Username</th>
+        <th>Name</th>
         <th>Email</th>
         <th>Role</th>
         <th>Action</th>
@@ -21,9 +21,9 @@
   </thead>
     <tbody>
         <tr th:each="user : ${users}">
-            <td th:text="${user.username}"></td>
+            <td th:text="${user.name}"></td>
             <td th:text="${user.email}"></td>
-            <td th:text="${user.roles}"></td>
+            <td th:text="${user.role}"></td>
             <td>
                 <a th:href="@{'/admin/user/edit/' + ${user.id}}">Edit</a>
                 <a th:href="@{'/admin/user/delete/' + ${user.id}}">Delete</a>
