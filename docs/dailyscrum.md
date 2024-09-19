@@ -211,3 +211,14 @@
 2. To do until next Scrum:
 - CRUD Users
 3. Need assistance / figure things out:
+
+2024/09/19 Kirill
+1. Done / not done sice last Scrum:
+- Setting up gcs(instead o s3) account + bucket
+- connecting bucket to project
+- started implementing CarPictures
+2. To do until next Scrum:
+- CRUD CarPictures
+- migrate gcs key to environment variables
+3. Need assistance / figure things out:
+- migrate gcs key to environment variables
