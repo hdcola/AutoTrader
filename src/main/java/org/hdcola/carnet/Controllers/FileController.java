@@ -23,11 +23,10 @@ public class FileController {
 
     private CarPictureService carPictureService;
 
-    @PostMapping("/post")
+    @PostMapping("/addPicture/{carId}")
     public String post(@RequestParam("file") MultipartFile file, @PathVariable Long carId) throws IOException {
         BlobId blobId = BlobId.of("carnetpictures", "test.txt");
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
-
 
         carPictureService.save(file, carId);
 

@@ -34,8 +34,9 @@ public class CarPictureService {
         Long order = carPictures.size() + 1L;
 
         carPicture.setOrder(order);
-        carPicture.setPictureUrl(file.getAbsolutePath());
+        carPicture.setPictureUrl(file.getOriginalFilename());
         carPicture.setCar(car);
 
+        carPictureRepository.save(carPicture);
     }
 }
