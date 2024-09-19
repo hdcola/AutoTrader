@@ -222,3 +222,17 @@
 - migrate gcs key to environment variables
 3. Need assistance / figure things out:
 - migrate gcs key to environment variables
+
+2024/09/19 Michael
+1. Done/ not done since last Scrum:
+- Finished assigned templates (user/seller index view, logout, create listing, view listing)
+- review code on templates (div vs th:block)
+- backend logout GET
+2. To do until next Scrum:
+- backend logout POST
+- view + save listings as buyer
+- fix menu bar
+- admin CRUD
+3. Need assistance / figure things out:
+- backend logout POST
+  
