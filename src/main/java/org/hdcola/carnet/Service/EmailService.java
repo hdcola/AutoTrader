@@ -2,6 +2,8 @@ package org.hdcola.carnet.Service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.hdcola.carnet.Entity.Role;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,9 +21,13 @@ import java.util.Map;
 public class EmailService {
 
     @Value("${carnet.admin.email}")
+    @Getter
+    @Setter
     private String adminEmail;
 
     @Value("${carnet.admin.notification.emailfrom}")
+    @Getter
+    @Setter
     private String emailFrom;
 
     private final JavaMailSender mailSender;
@@ -36,6 +42,11 @@ public class EmailService {
     public void sendSimpleEmailToAdmin(String subject, String body) {
         sendSimpleEmail(adminEmail, subject, body);
     }
+
+    public void sendThymeleafMailToAdmin(String subject, String template, Map<String, Object> templateModel) throws MessagingException {
+        sendThymeleafMail(adminEmail, subject, template, templateModel);
+    }
+
     public void sendSimpleEmail(String toEmail, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(toEmail);
@@ -47,9 +58,6 @@ public class EmailService {
         log.debug("Email sent to: {} : {}\n{}", toEmail, subject, body);
     }
 
-    public void sendThymeleafMailToAdmin(String subject, String template, Map<String, Object> templateModel) throws MessagingException {
-        sendThymeleafMail(adminEmail, subject, template, templateModel);
-    }
     public void sendThymeleafMail(String toEmail, String subject, String template, Map<String, Object> templateModel) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
