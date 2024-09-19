@@ -7,7 +7,7 @@
     <script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>
 </head>
 <body>
-
+<div th:insert="~{fragments/header :: header}"></div>
 <div class="container">
     <form th:action="@{/register}" th:object="${user}" method="post">
         <label for="email">Email:</label>

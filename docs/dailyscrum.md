@@ -163,3 +163,51 @@
 3. issues
 - htmx and thymeleaf rendering issues
 
+---
+
+2024/09/18 Danny
+1. Done / not done sice last Scrum:
+- Deal with more possible situations of login and registration
+- Mort Test for register and login
+- Config Google loing in Heroku
+2. To do until next Scrum:
+- Email, Telegram, Discord Notifactions
+- CRUD Users
+3. Need assistance / figure things out:
+
+
+2024/09/18 Michael
+1. Done/ not done since last Scrum:
+- Finish all fragments
+- Beautify index
+- Fix all my conflicts in pull requests
+2. To do until next Scrum:
+- Template for viewing listings
+- logout template and unit test
+- fix header options (login and logout view)
+3. Need assistance / figure things out:
+- integrating fragments
+
+
+2024/09/18 Kirill
+1. Done / not done sice last Scrum:
+- htmx + thymeleaf works
+- make previous portion functional, mapping to database
+- rudimental ui
+2. To do until next Scrum:
+- configure s3
+- make image transfer available
+3. Need assistance / figure things out:
+
+---
+
+2024/09/19 Danny
+1. Done / not done sice last Scrum:
+- Setting Admin mail group for notification
+- Telegram Notifactions Service
+- Email Notifactions Service
+- Not do Discord Notifactions(same for telegram)
+- not done CRUD Users
+2. To do until next Scrum:
+- CRUD Users
+3. Need assistance / figure things out:

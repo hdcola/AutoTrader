@@ -1,14 +1,14 @@
 package org.hdcola.carnet.Controllers;
 
-import org.hdcola.carnet.Configs.CustomDaoAuthenticationProvider;
+import org.hdcola.carnet.Configs.CustomDaoAuthenticationProviderConfig;
 import org.hdcola.carnet.Configs.WebSecurityConfig;
 import org.hdcola.carnet.DTO.UserOauthChoiceRoleDTO;
+import org.hdcola.carnet.DTO.UserSettingsDTO;
 import org.hdcola.carnet.Entity.Role;
 import org.hdcola.carnet.Entity.User;
 import org.hdcola.carnet.Handler.OAuth2LoginSuccessHandler;
 import org.hdcola.carnet.Repository.CarRepository;
 import org.hdcola.carnet.Repository.UserRepository;
-import org.hdcola.carnet.Service.CustomUserDetailsService;
 import org.hdcola.carnet.Service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +35,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 
 
-@WebMvcTest
-@Import({WebSecurityConfig.class, OAuth2LoginSuccessHandler.class, CustomDaoAuthenticationProvider.class})
+@WebMvcTest(UserController.class)
+@Import({WebSecurityConfig.class, OAuth2LoginSuccessHandler.class, CustomDaoAuthenticationProviderConfig.class})
 public class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -86,7 +86,7 @@ public class UserControllerTest {
         mockMvc.perform(get("/choice-role")
                         .with(SecurityMockMvcRequestPostProcessors.authentication(authentication)))
                 .andExpect(status().isOk())
-                .andExpect(view().name("oauthChoiceRole"))
+                .andExpect(view().name("choicerole"))
                 .andExpect(model().attributeExists("user"))
                 .andExpect(model().attributeExists("roles"));
     }
@@ -276,4 +276,136 @@ public class UserControllerTest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login?error"));
     }
+
+    @Test
+    void testGetSettings_ShouldReturnSettingsPage() throws Exception {
+        // Create a mock OAuth2User
+        OAuth2User oAuth2User = new DefaultOAuth2User(
+                List.of(new SimpleGrantedAuthority("ROLE_USER")),
+                Map.of("email", "test@example.com"),
+                "email"
+        );
+
+        // Create an Authentication object with the mock OAuth2User
+        Authentication authentication = new UsernamePasswordAuthenticationToken(oAuth2User, null, oAuth2User.getAuthorities());
+
+        // Mock the userService.getUserSettingsDTO method
+        UserSettingsDTO userSettingsDTO = new UserSettingsDTO();
+        userSettingsDTO.setEmail("test@example.com");
+        userSettingsDTO.setRole(Role.BUYER);
+        when(userService.getUserSettingsDTO("test@example.com")).thenReturn(userSettingsDTO);
+
+        // Perform the GET request with the authentication
+        mockMvc.perform(get("/settings")
+                        .with(SecurityMockMvcRequestPostProcessors.authentication(authentication)))
+                .andExpect(status().isOk())
+                .andExpect(view().name("settings"))
+                .andExpect(model().attributeExists("user"))
+                .andExpect(model().attributeExists("roles"));
+    }
+
+    @Test
+    void testPostSettings_Success() throws Exception {
+        // Create a mock OAuth2User
+        OAuth2User oAuth2User = new DefaultOAuth2User(
+                List.of(new SimpleGrantedAuthority("ROLE_")),
+                Map.of("email", "test@example.com"),
+                "email"
+        );
+
+        // Create an Authentication object with the mock OAuth2User
+        Authentication authentication = new UsernamePasswordAuthenticationToken(oAuth2User, null, oAuth2User.getAuthorities());
+
+        // Mock the userService.updateSettings method
+        doNothing().when(userService).updateSettings(any(UserSettingsDTO.class));
+
+        // Perform the POST request with the authentication
+        mockMvc.perform(post("/settings")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .with(SecurityMockMvcRequestPostProcessors.authentication(authentication))
+                        .param("email", "test@example.com")
+                        .param("name", "user")
+                        .param("role", "BUYER")
+                        .param("password", "password")
+                        .param("password2", "password"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/settings"))
+                .andExpect(flash().attribute("message", "Settings update successful."));
+    }
+
+    @Test
+    void testSettings_PasswordMismatch() throws Exception {
+        // Create a mock OAuth2User
+        OAuth2User oAuth2User = new DefaultOAuth2User(
+                List.of(new SimpleGrantedAuthority("ROLE_USER")),
+                Map.of("email", "test@example.com"),
+                "email"
+        );
+
+        // Create an Authentication object with the mock OAuth2User
+        Authentication authentication = new UsernamePasswordAuthenticationToken(oAuth2User, null, oAuth2User.getAuthorities());
+
+        // Perform the POST request with the authentication
+        mockMvc.perform(post("/settings")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .with(SecurityMockMvcRequestPostProcessors.authentication(authentication))
+                        .param("email", "test@example.com")
+                        .param("role", "BUYER")
+                        .param("password", "password")
+                        .param("password2", "differentPassword"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("settings"))
+                .andExpect(model().attributeHasFieldErrors("user", "password2"));
+    }
+
+    @Test
+    void testSettings_InvalidRole() throws Exception {
+        // Create a mock OAuth2User
+        OAuth2User oAuth2User = new DefaultOAuth2User(
+                List.of(new SimpleGrantedAuthority("ROLE_USER")),
+                Map.of("email", "test@example.com"),
+                "email"
+        );
+
+        // Create an Authentication object with the mock OAuth2User
+        Authentication authentication = new UsernamePasswordAuthenticationToken(oAuth2User, null, oAuth2User.getAuthorities());
+
+        // Perform the POST request with the authentication
+        mockMvc.perform(post("/settings")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .with(SecurityMockMvcRequestPostProcessors.authentication(authentication))
+                        .param("email", "test@example.com")
+                        .param("role", "ADMIN")
+                        .param("password", "password")
+                        .param("password2", "password"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("settings"))
+                .andExpect(model().attributeHasFieldErrors("user", "role"));
+    }
+
+    @Test
+    void testSettings_InvalidPasswordLength() throws Exception {
+        // Create a mock OAuth2User
+        OAuth2User oAuth2User = new DefaultOAuth2User(
+                List.of(new SimpleGrantedAuthority("ROLE_USER")),
+                Map.of("email", "test@example.com"),
+                "email"
+        );
+
+        // Create an Authentication object with the mock OAuth2User
+        Authentication authentication = new UsernamePasswordAuthenticationToken(oAuth2User, null, oAuth2User.getAuthorities());
+
+        // Perform the POST request with the authentication
+        mockMvc.perform(post("/settings")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .with(SecurityMockMvcRequestPostProcessors.authentication(authentication))
+                        .param("email", "test@example.com")
+                        .param("role", "BUYER")
+                        .param("password", "short")
+                        .param("password2", "short"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("settings"))
+                .andExpect(model().attributeHasFieldErrors("user", "password"));
+    }
+
 }

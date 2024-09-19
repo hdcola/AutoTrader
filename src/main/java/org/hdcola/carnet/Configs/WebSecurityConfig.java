@@ -29,6 +29,7 @@ public class WebSecurityConfig  {
                                 .requestMatchers("/register","/login", "/", "/oauth2/**").permitAll()
                                 .requestMatchers("/buyer").hasRole("BUYER")
                                 .requestMatchers("/seller").hasRole("SELLER")
+                                .requestMatchers("/settings").authenticated()
                                 .anyRequest().permitAll()
                 )
                 .oauth2Login((oauth2) -> oauth2
@@ -43,7 +44,7 @@ public class WebSecurityConfig  {
                                 .defaultSuccessUrl("/", true)
                 )
                 .logout(
-                        (logout) -> logout.logoutSuccessUrl("/login").permitAll()
+                        (logout) -> logout.logoutSuccessUrl("/").permitAll()
                 );
 
         return http.build();

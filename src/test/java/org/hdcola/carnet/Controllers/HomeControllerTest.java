@@ -1,10 +1,8 @@
 package org.hdcola.carnet.Controllers;
-import org.hdcola.carnet.Configs.CustomDaoAuthenticationProvider;
 import org.hdcola.carnet.Configs.WebSecurityConfig;
 import org.hdcola.carnet.Handler.OAuth2LoginSuccessHandler;
 import org.hdcola.carnet.Repository.CarRepository;
 import org.hdcola.carnet.Repository.UserRepository;
-import org.hdcola.carnet.Service.CustomUserDetailsService;
 import org.hdcola.carnet.Service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -25,6 +25,9 @@ class UserServiceTests {
     @Mock
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Mock
+    private  EmailService emailService;
+
     @InjectMocks
     private UserService userService;
 
