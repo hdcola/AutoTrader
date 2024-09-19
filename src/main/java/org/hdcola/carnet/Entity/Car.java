@@ -23,4 +23,17 @@ public class Car
     @Size(min = 17, max = 17, message = "VIN must be 17 characters")
     @Vin(message = "VIN must be valid")
     private String VIN;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @NotBlank(message = "Make is mandatory")
+    private String make;
+
+    @NotBlank(message = "Model is mandatory")
+    private String model;
+
+    @NotNull(message = "Year is mandatory")
+    private int year;
 }

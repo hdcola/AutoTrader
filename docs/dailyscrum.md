@@ -211,3 +211,28 @@
 2. To do until next Scrum:
 - CRUD Users
 3. Need assistance / figure things out:
+
+2024/09/19 Kirill
+1. Done / not done sice last Scrum:
+- Setting up gcs(instead o s3) account + bucket
+- connecting bucket to project
+- started implementing CarPictures
+2. To do until next Scrum:
+- CRUD CarPictures
+- migrate gcs key to environment variables
+3. Need assistance / figure things out:
+- migrate gcs key to environment variables
+
+2024/09/19 Michael
+1. Done/ not done since last Scrum:
+- Finished assigned templates (user/seller index view, logout, create listing, view listing)
+- review code on templates (div vs th:block)
+- backend logout GET
+2. To do until next Scrum:
+- backend logout POST
+- view + save listings as buyer
+- fix menu bar
+- admin CRUD
+3. Need assistance / figure things out:
+- backend logout POST
+  

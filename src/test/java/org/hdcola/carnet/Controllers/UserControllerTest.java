@@ -7,6 +7,7 @@ import org.hdcola.carnet.DTO.UserSettingsDTO;
 import org.hdcola.carnet.Entity.Role;
 import org.hdcola.carnet.Entity.User;
 import org.hdcola.carnet.Handler.OAuth2LoginSuccessHandler;
+import org.hdcola.carnet.Repository.CarRepository;
 import org.hdcola.carnet.Repository.UserRepository;
 import org.hdcola.carnet.Service.UserService;
 import org.junit.jupiter.api.Test;
@@ -45,6 +46,9 @@ public class UserControllerTest {
 
     @MockBean
     private UserRepository userRepository;
+
+    @MockBean
+    private CarRepository carRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
