@@ -19,15 +19,18 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/settings}">Settings</a>
-                        </li>
                         <div sec:authorize="!isAuthenticated()">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/register}">Register</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" th:href="@{/login}">Login</a>
                             </li>
                         </div>
                         <div sec:authorize="isAuthenticated()">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/settings}">Settings</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" th:href="@{/logout}">Logout</a>
                             </li>
