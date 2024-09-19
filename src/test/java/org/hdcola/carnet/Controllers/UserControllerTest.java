@@ -1,6 +1,6 @@
 package org.hdcola.carnet.Controllers;
 
-import org.hdcola.carnet.Configs.CustomDaoAuthenticationProvider;
+import org.hdcola.carnet.Configs.CustomDaoAuthenticationProviderConfig;
 import org.hdcola.carnet.Configs.WebSecurityConfig;
 import org.hdcola.carnet.DTO.UserOauthChoiceRoleDTO;
 import org.hdcola.carnet.DTO.UserSettingsDTO;
@@ -35,7 +35,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 
 
 @WebMvcTest(UserController.class)
-@Import({WebSecurityConfig.class, OAuth2LoginSuccessHandler.class, CustomDaoAuthenticationProvider.class})
+@Import({WebSecurityConfig.class, OAuth2LoginSuccessHandler.class, CustomDaoAuthenticationProviderConfig.class})
 public class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -82,7 +82,7 @@ public class UserControllerTest {
         mockMvc.perform(get("/choice-role")
                         .with(SecurityMockMvcRequestPostProcessors.authentication(authentication)))
                 .andExpect(status().isOk())
-                .andExpect(view().name("oauthChoiceRole"))
+                .andExpect(view().name("choicerole"))
                 .andExpect(model().attributeExists("user"))
                 .andExpect(model().attributeExists("roles"));
     }

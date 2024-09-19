@@ -34,9 +34,12 @@ public class EmailService {
 
     private final TemplateEngine templateEngine;
 
-    public EmailService(JavaMailSender mailSender, TemplateEngine templateEngine) {
+    private TelegramBotService telegramBotService;
+
+    public EmailService(JavaMailSender mailSender, TemplateEngine templateEngine, TelegramBotService telegramBotService) {
         this.mailSender = mailSender;
         this.templateEngine = templateEngine;
+        this.telegramBotService = telegramBotService;
     }
 
     public void sendSimpleEmailToAdmin(String subject, String body) {
@@ -78,6 +81,7 @@ public class EmailService {
 
     public void sendWelcomeEmail(String toEmail, String name, Role role){
         sendSimpleEmailToAdmin("New user registered: " + toEmail, role.name() + " have a new user registered");
+        telegramBotService.sendMessageToAdmin("New user registered: " + toEmail + " as " + role.name());
         sendWelcomeEmail(toEmail, name);
     }
 

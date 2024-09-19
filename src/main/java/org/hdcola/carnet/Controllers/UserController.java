@@ -92,12 +92,15 @@ public class UserController {
         UserOauthChoiceRoleDTO user = new UserOauthChoiceRoleDTO(email, Role.NONE);
         model.addAttribute("user", user);
         model.addAttribute("roles", List.of(Role.BUYER, Role.SELLER));
-        return "oauthChoiceRole";
+        return "choicerole";
     }
 
     @PostMapping("/choice-role")
     public String oauthChoiceRole(@Valid UserOauthChoiceRoleDTO user, BindingResult result, Model model, RedirectAttributes rb, Authentication authentication) {
-        if(!user.getRole().equals(Role.BUYER) && !user.getRole().equals(Role.SELLER)) {
+        if(user.getRole() == null ){
+            result.rejectValue("role", "role.required", "Role is required");
+        }
+        if(user.getRole() == null || (!user.getRole().equals(Role.BUYER) && !user.getRole().equals(Role.SELLER))) {
             result.rejectValue("role", "role.invalid", "Role is invalid");
         }
 
@@ -106,7 +109,7 @@ public class UserController {
             log.debug("User:{}", user);
             model.addAttribute("org.springframework.validation.BindingResult.user", result);
             model.addAttribute("user", user);
-            return "oauthChoiceRole";
+            return "choicerole";
         }
 
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();

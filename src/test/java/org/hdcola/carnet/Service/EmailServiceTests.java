@@ -29,13 +29,16 @@ class EmailServiceTests {
     @Mock
     private TemplateEngine templateEngine;
 
+    @Mock
+    private TelegramBotService telegramBotService;
+
     @InjectMocks
     private EmailService emailService;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        emailService = spy(new EmailService(mailSender, templateEngine));
+        emailService = spy(new EmailService(mailSender, templateEngine, telegramBotService));
     }
 
     @Test
