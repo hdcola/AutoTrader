@@ -17,9 +17,9 @@ public class TelegramBotService {
     }
 
     @Value("${telegram.bot.admin.chat.id}")
-    private String ADMIN_CHAT_ID;
+    private String ADMIN_CHAT_ID="123";
     @Value("${telegram.bot.token}")
-    private String BOT_TOKEN;
+    private String BOT_TOKEN="token";
 
 
     public Mono<String> sendMessage(Long chatId, String message) {

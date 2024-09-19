@@ -31,6 +31,7 @@ class EmailServiceTests {
 
     @Mock
     private TelegramBotService telegramBotService;
+
     @InjectMocks
     private EmailService emailService;
 

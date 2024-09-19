@@ -82,7 +82,7 @@ public class UserControllerTest {
         mockMvc.perform(get("/choice-role")
                         .with(SecurityMockMvcRequestPostProcessors.authentication(authentication)))
                 .andExpect(status().isOk())
-                .andExpect(view().name("oauthChoiceRole"))
+                .andExpect(view().name("choicerole"))
                 .andExpect(model().attributeExists("user"))
                 .andExpect(model().attributeExists("roles"));
     }
