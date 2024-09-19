@@ -9,7 +9,6 @@ import java.util.Map;
 public class VinValidator implements ConstraintValidator<Vin, String> {
     @Override
     public boolean isValid(String vin, ConstraintValidatorContext constraintValidatorContext) {
-
         //general format of the vin, 17 characters I Q O are not allowed to avoid confusion with 1 and 0
         if (!vin.matches("[A-HJ-NPR-Z0-9]{17}")) {
             return false;
@@ -65,4 +64,5 @@ public class VinValidator implements ConstraintValidator<Vin, String> {
         // Validate the 9th character (check digit)
         return vin.substring(8, 9).equals(checkDigit);
     }
+
 }

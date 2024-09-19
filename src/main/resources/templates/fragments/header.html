@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en">
 <head>
@@ -19,19 +20,22 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{/settings}">Settings</a>
-                        </li>
-                        <div sec:authorize="!isAuthenticated()">
+                        <th:block sec:authorize="!isAuthenticated()">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/register}">Register</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" th:href="@{/login}">Login</a>
                             </li>
-                        </div>
-                        <div sec:authorize="isAuthenticated()">
+                        </th:block>
+                        <th:block sec:authorize="isAuthenticated()">
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/settings}">Settings</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" th:href="@{/logout}">Logout</a>
                             </li>
-                        </div>
+                        </th:block>
                     </ul>
                 </div>
 
