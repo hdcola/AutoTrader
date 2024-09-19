@@ -1,5 +1,6 @@
 package org.hdcola.carnet.Service;
 
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,10 @@ public class TelegramBotService {
     }
 
     @Value("${telegram.bot.admin.chat.id}")
+    @Setter
     private String ADMIN_CHAT_ID="123";
     @Value("${telegram.bot.token}")
+    @Setter
     private String BOT_TOKEN="token";
 
 
