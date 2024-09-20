@@ -1,57 +1,157 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Register</title>-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"-->
+<!--        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">-->
+<!--    <script src="https://unpkg.com/htmx.org@2.0.2"-->
+<!--        integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ"-->
+<!--        crossorigin="anonymous"></script>-->
+<!--</head>-->
+
+<!--<body>-->
+<!--    <div th:insert="~{fragments/header :: header}"></div>-->
+<!--    <div class="container">-->
+<!--        <form th:action="@{/settings}" th:object="${user}" method="post">-->
+<!--            <label th:text="'Eamil:' + *{email}">Email</label>-->
+<!--            <input type="hidden" th:field="*{email}" id="name" class="form-control col-4">-->
+
+<!--            <label for="name">Name:</label>-->
+<!--            <input type="text" th:field="*{name}" id="name" class="form-control col-4">-->
+<!--            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>-->
+
+<!--            <label for="password">Password:</label>-->
+<!--            <input type="password" th:field="*{password}" id="password" class="form-control col-4">-->
+<!--            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>-->
+
+<!--            <label for="password2">Confirm Password:</label>-->
+<!--            <input type="password" th:field="*{password2}" id="password2" class="form-control col-4">-->
+<!--            <span th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}"></span>-->
+
+<!--            <div class="mb-3">-->
+<!--                <label>You are:</label>-->
+<!--                <div th:each="role : ${roles}">-->
+<!--                    <input type="radio" th:field="*{role}" th:value="${role}" th:id="'role-' + ${role}"-->
+<!--                        class="form-check-input">-->
+<!--                    <label th:for="'role-' + ${role}"-->
+<!--                        th:text="${#strings.capitalize(role.name().toLowerCase())}"></label>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <span th:if="${#fields.hasErrors()}" th:text="'Update Settings Failed'" />-->
+<!--            <button type="submit" class="btn btn-primary mt-3">Update</button>-->
+<!--        </form>-->
+
+<!--    </div>-->
+<!--    <div th:insert="~{fragments/footer :: footer}"></div>-->
+<!--    <script>-->
+<!--        $(document).ready(function () {-->
+
+
+<!--        });-->
+<!--    </script>-->
+<!--</body>-->
+
+<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
+    <title>Update Settings</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://unpkg.com/htmx.org@2.0.2"
-        integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ"
-        crossorigin="anonymous"></script>
+            integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ"
+            crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-color: #244855; /* Dark blue background */
+            color: #FBE9D0; /* Light cream text */
+        }
+
+        .container {
+            background-color: #003134; /* Dark teal container */
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 50px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, label {
+            color: #FBE9D0; /* Light beige for headings and labels */
+        }
+
+        .btn-primary {
+            background-color: #874F41; /* Dark brown buttons */
+            border-color: #D3D9D4;
+        }
+
+        .btn-primary:hover {
+            background-color: #FBE9D0; /* Light beige hover state */
+            border-color: #D3D9D4;
+            color: #141619; /* Change text to dark on hover */
+        }
+
+        .btn-secondary {
+            background-color: #124E66; /* Light teal button for secondary options */
+            border-color: #D3D9D4;
+        }
+
+        .btn-secondary:hover {
+            background-color: #874F41; /* Dark brown on hover */
+            border-color: #D3D9D4;
+        }
+
+        .text-success, .text-danger {
+            color: #FBE9D0; /* Keep alerts consistent with the light text */
+        }
+    </style>
 </head>
 
 <body>
-    <div th:insert="~{fragments/header :: header}"></div>
-    <div class="container">
-        <form th:action="@{/settings}" th:object="${user}" method="post">
-            <label th:text="'Eamil:' + *{email}">Email</label>
-            <input type="hidden" th:field="*{email}" id="name" class="form-control col-4">
+<div th:insert="~{fragments/header :: header}"></div>
 
-            <label for="name">Name:</label>
-            <input type="text" th:field="*{name}" id="name" class="form-control col-4">
-            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+<div class="container">
+    <form th:action="@{/settings}" th:object="${user}" method="post">
+        <label th:text="'Email: ' + *{email}">Email</label>
+        <input type="hidden" th:field="*{email}" id="name" class="form-control col-4">
 
-            <label for="password">Password:</label>
-            <input type="password" th:field="*{password}" id="password" class="form-control col-4">
-            <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+        <label for="name">Name:</label>
+        <input type="text" th:field="*{name}" id="name" class="form-control col-4">
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 
-            <label for="password2">Confirm Password:</label>
-            <input type="password" th:field="*{password2}" id="password2" class="form-control col-4">
-            <span th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}"></span>
+        <label for="password">Password:</label>
+        <input type="password" th:field="*{password}" id="password" class="form-control col-4">
+        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
 
-            <div class="mb-3">
-                <label>You are:</label>
-                <div th:each="role : ${roles}">
-                    <input type="radio" th:field="*{role}" th:value="${role}" th:id="'role-' + ${role}"
-                        class="form-check-input">
-                    <label th:for="'role-' + ${role}"
-                        th:text="${#strings.capitalize(role.name().toLowerCase())}"></label>
-                </div>
+        <label for="password2">Confirm Password:</label>
+        <input type="password" th:field="*{password2}" id="password2" class="form-control col-4">
+        <span th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}"></span>
+
+        <div class="mb-3">
+            <label>You are:</label>
+            <div th:each="role : ${roles}">
+                <input type="radio" th:field="*{role}" th:value="${role}" th:id="'role-' + ${role}" class="form-check-input">
+                <label th:for="'role-' + ${role}" th:text="${#strings.capitalize(role.name().toLowerCase())}"></label>
             </div>
+        </div>
 
-            <span th:if="${#fields.hasErrors()}" th:text="'Update Settings Failed'" />
-            <button type="submit" class="btn btn-primary mt-3">Update</button>
-        </form>
+        <span th:if="${#fields.hasErrors()}" th:text="'Update Settings Failed'"></span>
+        <button type="submit" class="btn btn-primary mt-3">Update</button>
+    </form>
+</div>
 
-    </div>
-    <div th:insert="~{fragments/footer :: footer}"></div>
-    <script>
-        $(document).ready(function () {
+<div th:insert="~{fragments/footer :: footer}"></div>
 
-
-        });
-    </script>
+<script>
+    $(document).ready(function () {
+        // Add any additional JS if needed
+    });
+</script>
 </body>
 
 </html>

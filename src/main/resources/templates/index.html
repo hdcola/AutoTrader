@@ -9,13 +9,16 @@
 <body>
     <div th:insert="~{fragments/header :: header}"></div>
     <h1>Welcome to CarNet.</h1>
-    <div sec:authorize="hasRole('ROLE_BUYER')">
+    <div sec:authorize="hasRole('NONE')">
         <div th:insert="~{fragments/buyerindex :: buyerview}"></div>
     </div>
-    <div sec:authorize="hasRole('ROLE_SELLER')">
+    <div sec:authorize="hasRole('BUYER')">
+        <div th:insert="~{fragments/buyerindex :: buyerview}"></div>
+    </div>
+    <div sec:authorize="hasRole('SELLER')">
         <div th:insert="~{fragments/sellerindex :: sellerview}"></div>
     </div>
-    <div sec:authorize="hasRole('ROLE_ADMIN')">
+    <div sec:authorize="hasRole('ADMIN')">
         <div th:insert="~{fragments/sellerindex :: sellerview}"></div> <!--This is temporary until template is made-->
     </div>
     <div th:insert="~{fragments/footer :: footer}"></div>
