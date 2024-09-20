@@ -19,9 +19,10 @@ public class UserAdminController {
     }
 
     @GetMapping("/admin/users")
-    public String getUsers(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+    public String getUsers(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "3") int size) {
         Page<UserAdminListDTO> users = userAdminService.getUsers(page, size);
         model.addAttribute("users", users);
+        model.addAttribute("currentPage", page);
         return "admin/users";
     }
 
