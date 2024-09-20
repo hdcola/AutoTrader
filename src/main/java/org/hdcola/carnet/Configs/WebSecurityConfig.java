@@ -1,5 +1,7 @@
 package org.hdcola.carnet.Configs;
 
+import org.hdcola.carnet.Handler.LoginFailureHandler;
+import org.hdcola.carnet.Handler.LoginSuccesHandler;
 import org.hdcola.carnet.Handler.OAuth2LoginSuccessHandler;
 import org.hdcola.carnet.Service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,7 @@ public class WebSecurityConfig  {
                                 .requestMatchers("/register","/login", "/", "/oauth2/**").permitAll()
                                 .requestMatchers("/buyer").hasRole("BUYER")
                                 .requestMatchers("/seller").hasRole("SELLER")
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/settings", "/addCar").authenticated()
                                 .anyRequest().permitAll()
                 )
@@ -40,6 +43,8 @@ public class WebSecurityConfig  {
                         (form) -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
+                                .successHandler(new LoginSuccesHandler())
+                                .failureHandler(new LoginFailureHandler())
                                 .permitAll()
                                 .defaultSuccessUrl("/", true)
                 )
