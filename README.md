@@ -7,4 +7,4 @@ Technology used:
 - Google Login (OAuth2 Client)
 - Email Notifaction (Java Mail Sender)
 - Telegram Notifaction (WebClient)
-- AJAX (HTMLX & htmx-spring-boot-thymeleaf)
+- AJAX (HTMX & htmx-spring-boot-thymeleaf)
