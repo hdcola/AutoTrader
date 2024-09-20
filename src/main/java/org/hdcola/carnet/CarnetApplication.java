@@ -5,7 +5,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @Slf4j
-@SpringBootApplication
+@SpringBootApplication(exclude = {
+        com.google.cloud.spring.autoconfigure.core.GcpContextAutoConfiguration.class
+})
 public class CarnetApplication {
 
     public static void main(String[] args) {
