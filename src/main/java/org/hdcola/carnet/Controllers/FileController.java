@@ -13,8 +13,7 @@ import java.io.IOException;
 
 @RestController
 public class FileController {
-
-    @Autowired
+    
     private S3Service s3Service;
 
     @Autowired
