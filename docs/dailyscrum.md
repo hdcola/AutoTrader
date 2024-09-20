@@ -236,6 +236,8 @@
 3. Need assistance / figure things out:
 - backend logout POST
 
+---
+
 2024/09/19 Kirill
 1. Done/ not done since last Scrum:
 - Reconfigur gcs so S3
