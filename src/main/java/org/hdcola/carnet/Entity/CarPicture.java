@@ -18,7 +18,7 @@ public class CarPicture {
 
     private String pictureUrl;
 
-    private Long order;
+    private Long pictureOrder;
 
     @ManyToOne
     @JoinColumn(name = "car_id")

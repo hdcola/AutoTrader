@@ -7,16 +7,19 @@ import org.hdcola.carnet.DTO.UserRegisterDTO;
 import org.hdcola.carnet.Entity.Role;
 import org.hdcola.carnet.Service.UserService;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.List;
 
 @Component
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
-    private UserService userService;
+    private final UserService userService;
 
     public OAuth2LoginSuccessHandler(UserService userService) {
         this.userService = userService;
@@ -29,8 +32,17 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
         String provider = oauthToken.getAuthorizedClientRegistrationId();
 
+
+
         if ( userService.existsByEmail(email) ) {
             userService.addProvider(email, provider);
+
+            // get role from database and set it to security context
+            Role role = userService.getRole(email);
+            List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + role));
+            Authentication newAuth = new OAuth2AuthenticationToken(oAuth2User, authorities, provider);
+            SecurityContextHolder.getContext().setAuthentication(newAuth);
+
             response.sendRedirect("/");
         }else{
             userService.register(email, name, provider, Role.NONE);
