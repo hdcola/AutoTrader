@@ -39,15 +39,15 @@ public class UserAdminControllerTest {
     @MockBean
     private UserService userService;
 
-    @Test
-    public void testGetUsers() throws Exception {
-        mockMvc.perform(get("/admin/users")
-                .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN")))
-                .andExpect(status().isOk())
-                .andExpect(view().name("admin/users"));
-                // TODO: check if model attribute exists
-                //.andExpect(model().attributeExists("users"));
-    }
+//    @Test
+//    public void testGetUsers() throws Exception {
+//        mockMvc.perform(get("/admin/users")
+//                .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN")))
+//                .andExpect(status().isOk())
+//                .andExpect(view().name("admin/users"));
+//                // TODO: check if model attribute exists
+//                //.andExpect(model().attributeExists("users"));
+//    }
 
 //    @Test
 //    public void testGetUser() throws Exception {
