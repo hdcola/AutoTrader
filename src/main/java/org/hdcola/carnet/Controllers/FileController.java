@@ -13,10 +13,9 @@ import java.io.IOException;
 
 @RestController
 public class FileController {
-    
+
     private S3Service s3Service;
 
-    @Autowired
     private CarPictureService carPictureService;
 
     @PostMapping("/{carId}/upload")
