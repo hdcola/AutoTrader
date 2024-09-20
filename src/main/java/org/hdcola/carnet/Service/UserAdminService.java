@@ -19,4 +19,9 @@ public class UserAdminService {
         return userRepository.findAll(pageable).map(UserAdminListDTO::new);
     }
 
+    public void deleteUser(Long id) {
+        if(userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+        }
+    }
 }
