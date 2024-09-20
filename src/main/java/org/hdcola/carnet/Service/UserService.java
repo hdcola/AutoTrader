@@ -104,4 +104,12 @@ public class UserService {
         }
         userRepository.save(dbUser);
     }
+
+    public Role getRole(String email) {
+        User user = userRepository.findByEmail(email);
+        if(user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+        return user.getRole();
+    }
 }

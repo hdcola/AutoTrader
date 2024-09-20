@@ -94,7 +94,7 @@ public class UserController {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         String email = oAuth2User.getAttribute("email");
 
-        UserOauthChoiceRoleDTO user = new UserOauthChoiceRoleDTO(email, Role.NONE);
+        UserOauthChoiceRoleDTO user = new UserOauthChoiceRoleDTO(email, Role.BUYER);
         model.addAttribute("user", user);
         model.addAttribute("roles", List.of(Role.BUYER, Role.SELLER));
         return "choicerole";

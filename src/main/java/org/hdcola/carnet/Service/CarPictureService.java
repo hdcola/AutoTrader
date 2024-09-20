@@ -33,7 +33,7 @@ public class CarPictureService {
         }
         Long order = carPictures.size() + 1L;
 
-        carPicture.setOrder(order);
+        carPicture.setPictureOrder(order);
         carPicture.setPictureUrl(file.getOriginalFilename());
         carPicture.setCar(car);
 

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UserItem</title>
+</head>
+<body>
+
+<tr class="user-item fade-me-out" th:fragment="useritem-show" >
+    <td th:text="${user.email}"></td>
+    <td th:text="${user.name}"></td>
+    <td th:text="${user.role}"></td>
+    <td>
+        <button
+                th:attr="hx-get=@{/admin/users/{id}(id=${user.id})}"
+                hx-trigger="click"
+                hx-target="closest .user-item"
+        >Edit</button>
+        <button
+           th:attr="hx-delete=@{/admin/users/{id}(id=${user.id})}"
+           hx-include="#csrf"
+           hx-confirm="Are you sure?"
+           hx-trigger="click"
+           hx-swap="outerHTML swap:1s"
+        >Delete</button>
+    </td>
+</tr>
+
+
+<tr class="user-item fade-me-out" th:fragment="useritem-edit">
+    <td th:text="${user.email}"></td>
+    <td>
+        <input type="text" name="name" th:value="${user.name}" />
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    </td>
+    <td>
+        <select name="role">
+            <option value="BUYER" th:selected="${user.role == 'BUYER'}">BUYER</option>
+            <option value="SELLER" th:selected="${user.role == 'SELLER'}">SELLER</option>
+            <option value="ADMIN" th:selected="${user.role == 'ADMIN'}">ADMIN</option>
+        </select>
+    <td>
+        <button type="submit"
+                th:attr="hx-put=@{/admin/users/{id}(id=${user.id})}"
+                hx-include="closest tr"
+        >Save</button>
+        <button type="submit"
+                th:attr="hx-get=@{/admin/users/show/{id}(id=${user.id})}"
+        >Cancle</button>
+    </td>
+</tr>
+
+</body>
+</html>

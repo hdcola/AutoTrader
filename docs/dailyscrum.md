@@ -235,4 +235,37 @@
 - admin CRUD
 3. Need assistance / figure things out:
 - backend logout POST
+
+---
+
+2024/09/19 Danny
+1. Done / not done sice last Scrum:
+- CRUD Users BE
+2. To do until next Scrum:
+- Admin can see Pageable User Listing
+- Unit Test for users admin BE
+- Admin confirm + credentials before any action
+3. Need assistance / figure things out:
+
+2024/09/19 Kirill
+1. Done/ not done since last Scrum:
+- Reconfigur gcs so S3
+2. To do until next Scrum:
+- finish ui for addind pictures
+- do ui for view pictures
+- fix picture saving to cloud()
+3. Need assistance / figure things out:
+
+  2024/09/20 Michael
+1. Done/ not done since last Scrum:
+- Finished beautifying half the templates
+- Changed role association in header + index and how they see the views
+- Got username to show up in header
+2. To do until next Scrum:
+- FE work on new admin templates
+- finish styling all current templates
+- fix Trello
+- admin CRUD
+3. Need assistance / figure things out:
+- backend logout POST
   
