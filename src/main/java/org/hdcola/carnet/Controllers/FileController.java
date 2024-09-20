@@ -18,7 +18,7 @@ public class FileController {
 
     private CarPictureService carPictureService;
 
-    @PostMapping("/{carId}/upload")
+    @PostMapping("/Seller/{carId}/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable Long carId) {
         try {
             File convertedFile = convertMultiPartFileToFile(file);

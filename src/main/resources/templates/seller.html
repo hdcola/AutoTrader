@@ -1,7 +1,8 @@
-
+<html xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en">
+<body>
 <div th:replace="fragments/header"></div>
-<div class="container-fluid d-flex" id="main" th:if="${Login}">
-    <div th:each="car : ${carList}" class="col-3 card p-2 me-2 mt-2">
+<div class="container-fluid d-flex flex-wrap" id="main" th:if="${Login}">
+    <div th:each="car : ${carList}" class="col-3 card p-2 m-2">
         <span class="d-flex">
             <h3 th:text="${car.make} + ' ' + ${car.model} + ' ' + ${car.year}"></h3>
             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 20 20" hx-get="/loadCarForm/${car.id}" hx-target="#main">
@@ -15,10 +16,9 @@
         <h1>+</h1>
     </button>
 </div>
-<div class="container" th:if="${!Login}">
+<div class="container" sec:authorize="!isAuthenticated()">
     <h3>PLease Log in</h3>
 </div>
-
 
 </body>
 </html>
