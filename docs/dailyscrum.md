@@ -235,4 +235,13 @@
 - admin CRUD
 3. Need assistance / figure things out:
 - backend logout POST
+
+2024/09/19 Kirill
+1. Done/ not done since last Scrum:
+- Reconfigur gcs so S3
+2. To do until next Scrum:
+- finish ui for addind pictures
+- do ui for view pictures
+- fix picture saving to cloud()
+3. Need assistance / figure things out:
   
