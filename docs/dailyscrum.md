@@ -245,7 +245,7 @@
 - fix picture saving to cloud()
 3. Need assistance / figure things out:
 
-  2024/09/19 Michael
+  2024/09/20 Michael
 1. Done/ not done since last Scrum:
 - Finished beautifying half the templates
 - Changed role association in header + index and how they see the views
