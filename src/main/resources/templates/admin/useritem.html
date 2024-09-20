@@ -33,7 +33,12 @@
         <input type="email" name="name" th:value="${user.name}" />
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
     </td>
-    <td><input type="text" name="role" th:value="${user.role}" /></td>
+    <td>
+        <select name="role">
+            <option value="BUYER" th:selected="${user.role == 'BUYER'}">BUYER</option>
+            <option value="SELLER" th:selected="${user.role == 'SELLER'}">SELLER</option>
+            <option value="ADMIN" th:selected="${user.role == 'ADMIN'}">ADMIN</option>
+        </select>
     <td>
         <button type="submit"
                 th:attr="hx-put=@{/admin/users/{id}(id=${user.id})}"
