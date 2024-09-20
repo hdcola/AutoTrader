@@ -244,4 +244,17 @@
 - do ui for view pictures
 - fix picture saving to cloud()
 3. Need assistance / figure things out:
+
+  2024/09/19 Michael
+1. Done/ not done since last Scrum:
+- Finished beautifying half the templates
+- Changed role association in header + index and how they see the views
+- Got username to show up in header
+2. To do until next Scrum:
+- FE work on new admin templates
+- finish styling all current templates
+- fix Trello
+- admin CRUD
+3. Need assistance / figure things out:
+- backend logout POST
   
