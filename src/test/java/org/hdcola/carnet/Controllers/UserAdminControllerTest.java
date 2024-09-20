@@ -24,7 +24,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(UserAdminController.class)
 @Import({WebSecurityConfig.class, OAuth2LoginSuccessHandler.class, CustomDaoAuthenticationProviderConfig.class})
-
 public class UserAdminControllerTest {
 
     @Autowired
@@ -39,15 +38,20 @@ public class UserAdminControllerTest {
     @MockBean
     private UserService userService;
 
-//    @Test
-//    public void testGetUsers() throws Exception {
-//        mockMvc.perform(get("/admin/users")
-//                .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN")))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("admin/users"));
-//                // TODO: check if model attribute exists
-//                //.andExpect(model().attributeExists("users"));
-//    }
+    @Test
+    public void testGetUsers() throws Exception {
+        UserAdminListDTO user = new UserAdminListDTO();
+        // mock useradminservice.getusers anypage anysize
+        Mockito.when(userAdminService.getUsers(0, 3)).thenReturn(
+                new org.springframework.data.domain.PageImpl<>(java.util.List.of(user))
+        );
+
+        mockMvc.perform(get("/admin/users")
+                .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN")))
+                .andExpect(status().isOk())
+                .andExpect(view().name("admin/users"))
+                .andExpect(model().attributeExists("users"));
+    }
 
 //    @Test
 //    public void testGetUser() throws Exception {
