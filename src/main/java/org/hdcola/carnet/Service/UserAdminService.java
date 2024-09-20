@@ -24,4 +24,16 @@ public class UserAdminService {
             userRepository.deleteById(id);
         }
     }
+
+    public UserAdminListDTO getUser(Long id) {
+        return userRepository.findById(id).map(UserAdminListDTO::new).orElse(null);
+    }
+
+    public void updateUser(Long id, UserAdminListDTO user) {
+        userRepository.findById(id).ifPresent(u -> {
+            u.setName(user.getName());
+            u.setRole(user.getRole());
+            userRepository.save(u);
+        });
+    }
 }
