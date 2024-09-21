@@ -1,6 +1,5 @@
 package org.hdcola.carnet.Controllers;
 
-import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
 import org.hdcola.carnet.Configs.CustomDaoAuthenticationProviderConfig;
 import org.hdcola.carnet.Configs.WebSecurityConfig;
 import org.hdcola.carnet.DTO.UserAdminListDTO;
