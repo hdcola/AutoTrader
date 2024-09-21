@@ -9,13 +9,11 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 
-@Slf4j
 @Service
 public class S3Service {
 
     private final AmazonS3 s3client;
 
-    @Autowired
     public S3Service(AmazonS3 s3client) {
         this.s3client = s3client;
     }
