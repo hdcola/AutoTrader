@@ -41,7 +41,6 @@ public class UserAdminControllerTest {
     @Test
     public void testGetUsers() throws Exception {
         UserAdminListDTO user = new UserAdminListDTO();
-        // mock useradminservice.getusers anypage anysize
         Mockito.when(userAdminService.getUsers(0, 3)).thenReturn(
                 new org.springframework.data.domain.PageImpl<>(java.util.List.of(user))
         );
