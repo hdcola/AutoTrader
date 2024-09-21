@@ -36,7 +36,14 @@ label {
   background-color: #874f41; /* Dark brown on hover */
   border-color: #d3d9d4;
 }
-.text-success,
-.text-danger {
-  color: #fbe9d0; /* Keep alerts consistent with the light text */
+
+.triple-dot{
+    cursor: pointer;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    padding: 5px;
+}.triple-dot:hover{
+    background-color: #f1f1f1;
+    transition: 0.3s;
 }
