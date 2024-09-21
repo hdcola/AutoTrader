@@ -11,7 +11,7 @@ public class FragmentsController {
 
     @GetMapping("/loadCarForm")
     public ModelAndView loadCarForm() {
-        ModelAndView mv = new ModelAndView("fragments/addCar");
+        ModelAndView mv = new ModelAndView("fragments/addCar :: addCar");
         mv.addObject("car", new Car());
         return mv;
     }

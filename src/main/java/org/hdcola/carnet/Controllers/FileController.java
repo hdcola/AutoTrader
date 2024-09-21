@@ -1,41 +1,42 @@
 package org.hdcola.carnet.Controllers;
 
-import com.google.api.client.util.Value;
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
-import org.hdcola.carnet.Entity.CarPicture;
 import org.hdcola.carnet.Service.CarPictureService;
+import org.hdcola.carnet.Service.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 @RestController
 public class FileController {
 
-    private Storage storage;
+    private S3Service s3Service;
 
     private CarPictureService carPictureService;
 
-    @PostMapping("/addPicture/{carId}")
-    public String post(@RequestParam("file") MultipartFile file, @PathVariable Long carId) throws IOException {
-        BlobId blobId = BlobId.of("carnetpictures", "test.txt");
-        BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
+    @PostMapping("/{carId}/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable Long carId) {
+        try {
+            File convertedFile = convertMultiPartFileToFile(file);
 
-        carPictureService.save(file, carId);
-
-        byte[] content = file.getBytes();
-        storage.create(blobInfo, content);
-        return "File posted to gcp";
+            carPictureService.save(file, carId);
+            s3Service.uploadFile(file.getOriginalFilename(), convertedFile);
+            convertedFile.delete();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok("File uploaded successfully");
     }
 
-    @GetMapping("/read")
-    public String read() {
-        return "Reading file";
+    private File convertMultiPartFileToFile(MultipartFile file) throws IOException {
+        File convertedFile = new File(file.getOriginalFilename());
+        FileOutputStream fos = new FileOutputStream(convertedFile);
+        fos.write(file.getBytes());
+        fos.close();
+        return convertedFile;
     }
 }
