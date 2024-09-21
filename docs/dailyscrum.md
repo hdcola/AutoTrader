@@ -238,6 +238,15 @@
 
 ---
 
+2024/09/19 Danny
+1. Done / not done sice last Scrum:
+- CRUD Users BE
+2. To do until next Scrum:
+- Admin can see Pageable User Listing
+- Unit Test for users admin BE
+- Admin confirm + credentials before any action
+3. Need assistance / figure things out:
+
 2024/09/19 Kirill
 1. Done/ not done since last Scrum:
 - Reconfigur gcs so S3

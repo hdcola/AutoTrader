@@ -19,12 +19,12 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserAdminController.class)
 @Import({WebSecurityConfig.class, OAuth2LoginSuccessHandler.class, CustomDaoAuthenticationProviderConfig.class})
-
 public class UserAdminControllerTest {
 
     @Autowired
@@ -41,55 +41,66 @@ public class UserAdminControllerTest {
 
     @Test
     public void testGetUsers() throws Exception {
+        UserAdminListDTO user = new UserAdminListDTO();
+        Mockito.when(userAdminService.getUsers(0, 3)).thenReturn(
+                new org.springframework.data.domain.PageImpl<>(java.util.List.of(user))
+        );
+
         mockMvc.perform(get("/admin/users")
                 .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN")))
                 .andExpect(status().isOk())
-                .andExpect(view().name("admin/users"));
-                // TODO: check if model attribute exists
-                //.andExpect(model().attributeExists("users"));
+                .andExpect(view().name("admin/users"))
+                .andExpect(model().attributeExists("users"));
     }
 
-//    @Test
-//    public void testGetUser() throws Exception {
-//        UserAdminListDTO user = new UserAdminListDTO();
-//        Mockito.when(userAdminService.getUser(1L)).thenReturn(user);
-//
-//        mockMvc.perform(get("/admin/users/1")
-//                .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN")))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("admin/useritem :: useritem-edit"))
-//                .andExpect(model().attributeExists("user"));
-//    }
-//
-//    @Test
-//    public void testGetShowUser() throws Exception {
-//        UserAdminListDTO user = new UserAdminListDTO();
-//        Mockito.when(userAdminService.getUser(1L)).thenReturn(user);
-//
-//        mockMvc.perform(get("/admin/users/show/1"))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("admin/useritem :: useritem-show"))
-//                .andExpect(model().attributeExists("user"));
-//    }
-//
-//    @Test
-//    public void testUpdateUser() throws Exception {
-//        UserAdminListDTO user = new UserAdminListDTO();
-//        Mockito.when(userAdminService.getUser(1L)).thenReturn(user);
-//
-//        mockMvc.perform(put("/admin/users/1")
-//                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                .param("name", "John Doe")
-//                .param("email", "john.doe@example.com")
-//                .param("role", "admin"))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("admin/useritem :: useritem-show"))
-//                .andExpect(model().attributeExists("user"));
-//    }
-//
-//    @Test
-//    public void testDeleteUser() throws Exception {
-//        mockMvc.perform(delete("/admin/users/1"))
-//                .andExpect(status().isOk());
-//    }
+    @Test
+    public void testGetUser() throws Exception {
+        UserAdminListDTO user = new UserAdminListDTO();
+        Mockito.when(userAdminService.getUser(1L)).thenReturn(user);
+
+        mockMvc.perform(get("/admin/users/1")
+                        .header("HX-Request", "true")
+                        .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN")))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("Save</button>")))
+                .andExpect(model().attributeExists("user"));
+    }
+
+    @Test
+    public void testGetShowUser() throws Exception {
+        UserAdminListDTO user = new UserAdminListDTO();
+        Mockito.when(userAdminService.getUser(1L)).thenReturn(user);
+
+        mockMvc.perform(get("/admin/users/show/1")
+                        .header("HX-Request", "true")
+                        .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN")))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(">Edit</button>")))
+                .andExpect(model().attributeExists("user"));
+    }
+
+    @Test
+    public void testUpdateUser() throws Exception {
+        UserAdminListDTO user = new UserAdminListDTO();
+        Mockito.when(userAdminService.getUser(1L)).thenReturn(user);
+
+        mockMvc.perform(put("/admin/users/1")
+                        .header("HX-Request", "true")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("name", "John Doe")
+                        .param("role", "ADMIN")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN")))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(">Edit</button>")))
+                .andExpect(model().attributeExists("user"));
+    }
+
+    @Test
+    public void testDeleteUser() throws Exception {
+        mockMvc.perform(delete("/admin/users/1")
+                        .with(SecurityMockMvcRequestPostProcessors.csrf())
+                        .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN")))
+                .andExpect(status().isOk());
+    }
 }
