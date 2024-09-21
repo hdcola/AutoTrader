@@ -1,8 +1,10 @@
 package org.hdcola.carnet.Controllers;
 import org.hdcola.carnet.Configs.WebSecurityConfig;
+import org.hdcola.carnet.Entity.CarPicture;
 import org.hdcola.carnet.Handler.OAuth2LoginSuccessHandler;
 import org.hdcola.carnet.Repository.CarRepository;
 import org.hdcola.carnet.Repository.UserRepository;
+import org.hdcola.carnet.Service.CarPictureService;
 import org.hdcola.carnet.Service.S3Service;
 import org.hdcola.carnet.Service.UserAdminService;
 import org.hdcola.carnet.Service.UserService;
@@ -28,6 +30,9 @@ public class HomeControllerTest {
 
     @MockBean
     private S3Service s3Service;
+
+    @MockBean
+    private CarPictureService carPictureService;
 
     @MockBean
     private UserService userService;
