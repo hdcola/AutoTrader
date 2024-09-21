@@ -1,69 +1,3 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Register</title>-->
-<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">-->
-<!--    <script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div th:insert="~{fragments/header :: header}"></div>-->
-<!--<div class="container">-->
-<!--    <form th:action="@{/register}" th:object="${user}" method="post">-->
-<!--        <label for="email">Email:</label>-->
-<!--        <input type="text" th:field="*{email}" id="email" class="form-control col-4"-->
-<!--               th:attr="hx-post=@{/register/isEmailExists}"-->
-<!--               hx-trigger="blur"-->
-<!--               hx-target="#email-check"-->
-<!--               hx-swap="outerHTML"-->
-<!--        >-->
-
-<!--        <label for="name">Name:</label>-->
-<!--        <input type="text" th:field="*{name}" id="name" class="form-control col-4">-->
-<!--        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" ></span>-->
-
-<!--        <span id="email-check" th:fragment="email-check" th:class="${emailCheckMessageClass}" th:text="${emailCheckMessage}"></span>-->
-<!--        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>-->
-
-<!--        <label for="name">Name:</label>-->
-<!--        <input type="text" th:field="*{name}" id="name" class="form-control col-4">-->
-<!--        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" ></span>-->
-
-<!--        <label for="password">Password:</label>-->
-<!--        <input type="password" th:field="*{password}" id="password" class="form-control col-4">-->
-<!--        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" ></span>-->
-
-<!--        <label for="password2">Confirm Password:</label>-->
-<!--        <input type="password" th:field="*{password2}" id="password2" class="form-control col-4">-->
-<!--        <span th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}" ></span>-->
-
-<!--        <div class="mb-3">-->
-<!--            <label>You are:</label>-->
-<!--            <div th:each="role : ${roles}">-->
-<!--                <input type="radio" th:field="*{role}" th:value="${role}" th:id="'role-' + ${role}" class="form-check-input">-->
-<!--                <label th:for="'role-' + ${role}" th:text="${#strings.capitalize(role.name().toLowerCase())}"></label>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--        <span th:if="${#fields.hasErrors()}" th:text="'Registration Failed'"/>-->
-<!--        <button type="submit" class="btn btn-primary mt-3">Register</button>-->
-<!--        <a href="/oauth2/authorization/google" class="btn btn-primary mt-3">Register with Google</a>-->
-<!--    </form>-->
-
-<!--    <hr>-->
-<!--    <p>Already have an account?</p>-->
-<!--    <a href="/login" class="btn btn-primary">Login</a>-->
-<!--</div>-->
-
-<!--<script>-->
-<!--    $(document).ready(function() {-->
-
-
-<!--    });-->
-<!--</script>-->
-<!--</body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -110,7 +44,6 @@
 </head>
 <body>
 <div th:insert="~{fragments/header :: header}"></div>
-
 <div class="container">
     <form th:action="@{/register}" th:object="${user}" method="post">
         <label for="email">Email:</label>
@@ -123,18 +56,18 @@
 
         <label for="name">Name:</label>
         <input type="text" th:field="*{name}" id="name" class="form-control col-4">
-        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+        <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" ></span>
 
         <span id="email-check" th:fragment="email-check" th:class="${emailCheckMessageClass}" th:text="${emailCheckMessage}"></span>
         <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger"></span>
 
         <label for="password">Password:</label>
         <input type="password" th:field="*{password}" id="password" class="form-control col-4">
-        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" ></span>
 
         <label for="password2">Confirm Password:</label>
         <input type="password" th:field="*{password2}" id="password2" class="form-control col-4">
-        <span th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}"></span>
+        <span th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}" ></span>
 
         <div class="mb-3">
             <label>You are:</label>
@@ -144,7 +77,7 @@
             </div>
         </div>
 
-        <span th:if="${#fields.hasErrors()}" th:text="'Registration Failed'"></span>
+        <span th:if="${#fields.hasErrors()}" th:text="'Registration Failed'"/>
         <button type="submit" class="btn btn-primary mt-3">Register</button>
         <a href="/oauth2/authorization/google" class="btn btn-primary mt-3">Register with Google</a>
     </form>
@@ -156,7 +89,8 @@
 
 <script>
     $(document).ready(function() {
-        // Additional JS if needed
+
+
     });
 </script>
 </body>
