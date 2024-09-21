@@ -8,3 +8,5 @@ Technology used:
 - Email Notifaction (Java Mail Sender)
 - Telegram Notifaction (WebClient)
 - AJAX (HTMX & htmx-spring-boot-thymeleaf)
+- Testing (JUnit, WebMvcTest, Mockito)
+- Object Storage (Amazon S3)
