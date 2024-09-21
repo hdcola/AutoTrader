@@ -1,52 +1,121 @@
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">-->
+<!--    <title>Footer</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--    <footer th:fragment="footer" class="bg-light text-center text-lg-start mt-auto">-->
+<!--        <div class="container p-4">-->
+<!--            <div class="row">-->
+<!--                <div class="col-lg-6 col-md-12 mb-4 mb-md-0">-->
+<!--                    <h5 class="text-uppercase">About Us</h5>-->
+<!--                    <p>-->
+<!--                        We are carnet...-->
+<!--                    </p>-->
+<!--                </div>-->
+
+<!--                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">-->
+<!--                    <h5 class="text-uppercase">Follow Us</h5>-->
+<!--                    <ul class="list-unstyled mb-0">-->
+<!--                        <li>-->
+<!--                            <a href="#" class="text-dark">Danny</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#" class="text-dark">Kirill</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="#" class="text-dark">Michael</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+
+<!--                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">-->
+<!--                    <h5 class="text-uppercase">Contact Us</h5>-->
+<!--                    <ul class="list-unstyled">-->
+<!--                        <li>-->
+<!--                            <a href="mailto:1843984@johnabbottcollege.net" class="text-dark">Our Email</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="tel:+1234567890" class="text-dark">Our Number</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="text-center p-3 bg-dark text-white">-->
+<!--            &copy; 2024 Your Company.  All rights reserved.-->
+<!--        </div>-->
+<!--    </footer>-->
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Footer</title>
+    <style>
+        .bg-light {
+            background-color: #FBE9D0 !important; /* Light beige background */
+        }
+        .text-dark {
+            color: #244855 !important; /* Dark blue text */
+        }
+        .text-white {
+            color: #FBE9D0 !important; /* Light beige text for the bottom footer */
+        }
+        .bg-dark {
+            background-color: #874F41 !important; /* Dark brown background for the bottom footer */
+        }
+        a:hover {
+            color: #E64833 !important; /* Orange hover effect for links */
+        }
+    </style>
 </head>
 <body>
-    <footer th:fragment="footer" class="bg-light text-center text-lg-start mt-auto">
-        <div class="container p-4">
-            <div class="row">
-                <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">About Us</h5>
-                    <p>
-                        We are carnet...
-                    </p>
-                </div>
+<footer th:fragment="footer" class="bg-light text-center text-lg-start mt-auto">
+    <div class="container p-4">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+                <h5 class="text-uppercase">About Us</h5>
+                <p>
+                    We are carnet...
+                </p>
+            </div>
 
-                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">Follow Us</h5>
-                    <ul class="list-unstyled mb-0">
-                        <li>
-                            <a href="#" class="text-dark">Danny</a>
-                        </li>
-                        <li>
-                            <a href="#" class="text-dark">Kirill</a>
-                        </li>
-                        <li>
-                            <a href="#" class="text-dark">Michael</a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase">Follow Us</h5>
+                <ul class="list-unstyled mb-0">
+                    <li>
+                        <a href="#" class="text-dark">Danny</a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-dark">Kirill</a>
+                    </li>
+                    <li>
+                        <a href="#" class="text-dark">Michael</a>
+                    </li>
+                </ul>
+            </div>
 
-                <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                    <h5 class="text-uppercase">Contact Us</h5>
-                    <ul class="list-unstyled">
-                        <li>
-                            <a href="mailto:1843984@johnabbottcollege.net" class="text-dark">Our Email</a>
-                        </li>
-                        <li>
-                            <a href="tel:+1234567890" class="text-dark">Our Number</a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                <h5 class="text-uppercase">Contact Us</h5>
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="mailto:1843984@johnabbottcollege.net" class="text-dark">Our Email</a>
+                    </li>
+                    <li>
+                        <a href="tel:+1234567890" class="text-dark">Our Number</a>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="text-center p-3 bg-dark text-white">
-            &copy; 2024 Your Company.  All rights reserved.
-        </div>
-    </footer>
+    </div>
+    <div class="text-center p-3 bg-dark text-white">
+        &copy; 2024 Your Company. All rights reserved.
+    </div>
+</footer>
 </body>
 </html>

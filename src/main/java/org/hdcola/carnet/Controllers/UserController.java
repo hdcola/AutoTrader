@@ -36,6 +36,11 @@ public class UserController {
         return "login";
     }
 
+    @GetMapping("/logout")
+    public String logout() {
+        return "logout";
+    }
+
     @GetMapping("/register")
     public String register(Model model) {
         UserRegisterDTO user = new UserRegisterDTO();
