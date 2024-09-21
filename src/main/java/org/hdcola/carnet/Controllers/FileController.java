@@ -14,11 +14,16 @@ import java.io.IOException;
 @RestController
 public class FileController {
 
-    private S3Service s3Service;
+    private final S3Service s3Service;
 
-    private CarPictureService carPictureService;
+    private final CarPictureService carPictureService;
 
-    @PostMapping("/{carId}/upload")
+    public FileController(S3Service s3Service, CarPictureService carPictureService) {
+        this.s3Service = s3Service;
+        this.carPictureService = carPictureService;
+    }
+
+    @PostMapping("/Seller/{carId}/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file, @PathVariable Long carId) {
         try {
             File convertedFile = convertMultiPartFileToFile(file);
