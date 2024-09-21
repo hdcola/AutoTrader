@@ -2,3 +2,14 @@
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
 }
+
+.triple-dot{
+    cursor: pointer;
+    border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    padding: 5px;
+}.triple-dot:hover{
+    background-color: #f1f1f1;
+    transition: 0.3s;
+}

@@ -11,32 +11,40 @@
 
 <body>
 <div th:fragment="addCar">
-    <form th:attr="hx-post=@{/addCar}" hx-target="this" th:object="${car}" hx-swap="outerHTML" method="post">
-        <label for="vin">VIN:</label>
-        <input type="text" th:field="*{VIN}" id="vin" class="form-control col-4">
-        <span th:if="${#fields.hasErrors('VIN')}" th:errors="*{VIN}"></span>
+    <div class="container-fluid d-flex p-3">
+        <form th:action="@{/Seller/{id}/upload(id=${car.id})}" th:object="${car}" method="post" enctype="multipart/form-data">
+            <input type="file" id="myFile" name="file" class="card">
+            <input type="submit">
+        </form>
 
-        <label for="model">Model:</label>
-        <input type="text" th:field="*{model}" id="model" class="form-control col-4">
-        <span th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></span>
+        <form th:object="${car}"
+              th:attr="hx-post=@{/addCar}"
+              hx-target="this"
+              hx-swap="outerHTML">
 
-        <label for="make">Make:</label>
-        <input type="text" th:field="*{make}" id="make" class="form-control col-4">
-        <span th:if="${#fields.hasErrors('make')}" th:errors="*{make}"></span>
+            <label for="vin">VIN:</label>
+            <input type="text" th:field="*{VIN}" id="vin" class="form-control col-4">
+            <span th:if="${#fields.hasErrors('VIN')}" th:errors="*{VIN}"></span>
 
-        <label for="year">Year:</label>
-        <input type="number" th:field="*{year}" id="year" min="1900" max="2100" class="form-control col-4">
-        <span th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
+            <label for="model">Model:</label>
+            <input type="text" th:field="*{model}" id="model" class="form-control col-4">
+            <span th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></span>
 
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <label for="make">Make:</label>
+            <input type="text" th:field="*{make}" id="make" class="form-control col-4">
+            <span th:if="${#fields.hasErrors('make')}" th:errors="*{make}"></span>
 
-        <button type="submit" class="btn btn-primary mt-3">Add Car</button>
-    </form>
+            <label for="year">Year:</label>
+            <input type="number" th:field="*{year}" id="year" min="1900" max="2100" class="form-control col-4">
+            <span th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
 
-    <form th:action="@{/Seller/{id}/upload(id=${car.id})}" th:object="${car}" method="post" enctype="multipart/form-data">
-        <input type="file" id="myFile" name="file">
-        <input type="submit">
-    </form>
+            <input type="hidden" th:field="*{id}"/>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+            <button type="submit" class="btn btn-primary mt-3">Add Car</button>
+        </form>
+    </div>
+
 </div>
 
 </body>

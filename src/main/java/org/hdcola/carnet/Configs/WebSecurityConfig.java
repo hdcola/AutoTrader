@@ -32,7 +32,7 @@ public class WebSecurityConfig  {
                                 .requestMatchers("/buyer").hasRole("BUYER")
                                 .requestMatchers("/seller").hasRole("SELLER")
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
-                                .requestMatchers("/settings", "/addCar").authenticated()
+                                .requestMatchers("/settings").authenticated()
                                 .anyRequest().permitAll()
                 )
                 .oauth2Login((oauth2) -> oauth2

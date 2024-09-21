@@ -11,7 +11,12 @@ import java.io.File;
 @Service
 public class S3Service {
 
-    private AmazonS3 s3client;
+    private final AmazonS3 s3client;
+
+    @Autowired
+    public S3Service(AmazonS3 s3client) {
+        this.s3client = s3client;
+    }
 
     public void uploadFile(String keyName, File file) {
         try {

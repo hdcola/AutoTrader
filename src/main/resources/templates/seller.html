@@ -1,24 +1,67 @@
 <html xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en">
 <body>
 <div th:replace="fragments/header"></div>
-<div class="container-fluid d-flex flex-wrap" id="main" th:if="${Login}">
-    <div th:each="car : ${carList}" class="col-3 card p-2 m-2">
-        <span class="d-flex">
-            <h3 th:text="${car.make} + ' ' + ${car.model} + ' ' + ${car.year}"></h3>
-            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 20 20" hx-get="/loadCarForm/${car.id}" hx-target="#main">
-                <path fill="currentColor" d="M10 12a2 2 0 1 1 0-4a2 2 0 0 1 0 4m0-6a2 2 0 1 1 0-4a2 2 0 0 1 0 4m0 12a2 2 0 1 1 0-4a2 2 0 0 1 0 4"/>
-            </svg>
-        </span>
+<div class="container-fluid d-flex flex-wrap" id="main" sec:authorize="isAuthenticated()">
+    <div th:each="car : ${carList}" class="col-3 p-2">
+        <div class="card p-2">
+            <span class="d-flex w-100 justify-content-between">
+                <h3 th:text="${car.year} + ' ' + ${car.model}" class="text-nowrap overflow-hidden"></h3>
+                <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 20 20" class="align-self-center triple-dot"
+                     th:attr="data-car-id=${car.id}">
+                    <path fill="currentColor" d="M10 12a2 2 0 1 1 0-4a2 2 0 0 1 0 4m0-6a2 2 0 1 1 0-4a2 2 0 0 1 0 4m0 12a2 2 0 1 1 0-4a2 2 0 0 1 0 4"/>
+                </svg>
+            </span>
+            <p th:text="'VIN: ' + ${car.VIN}"></p>
+        </div>
 
-        <p th:text="'VIN: ' + ${car.VIN}"></p>
+        <div th:id="'car' + ${car.id}">
+            <button class="btn"
+                    th:attr="hx-get=@{/loadCarForm/{id}(id=${car.id})}"
+                    hx-target="#main">
+                Edit
+            </button>
+            <button class="btn"
+                    th:attr="hx-delete=@{/deleteCar/{id}(id=${car.id})}"
+                    hx-target="#main">
+                Delete
+            </button>
+        </div>
     </div>
-    <button id="addCar" class="col-3 card p-2 me-2 mt-2 d-flex justify-content-center align-items-center" hx-get="/loadCarForm" hx-target="#main">
-        <h1>+</h1>
-    </button>
+    <div class="col-3 p-2">
+        <button id="addCar" class="card p-2 d-flex w-100"  hx-get="/loadCarForm" hx-target="#main">
+            <h1 class="justify-self-center align-self-center">+</h1>
+        </button>
+    </div>
 </div>
 <div class="container" sec:authorize="!isAuthenticated()">
     <h3>PLease Log in</h3>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+   $(document).ready(function(){
+       console.log("ready");
+
+       $("[id^='car']").each(function(){
+           $(this).hide();
+       });
+
+       $(".triple-dot").click(function(event){
+          let carId = $(this).data("car-id");
+          let carMenu = $("#car" + carId);
+          $("[id^='car']").not(carMenu).hide();
+          carMenu.toggle();
+          event.stopPropagation();
+
+          $(document).click(function(event) {
+               if (!$(event.target).closest(carMenu).length) {
+                   $(carMenu).hide(); // Hide all car menus if clicked outside
+               }
+           });
+       });
+
+
+   });
+</script>
 </body>
 </html>
