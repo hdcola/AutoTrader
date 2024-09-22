@@ -10,7 +10,7 @@
 <div th:insert="~{fragments/header :: header}"></div>
 <div class="container">
   <h1>Please choose your Role:</h1>
-  <form th:action="@{/choice-role}" th:object="${user}" method="post">
+  <form th:action="@{/choice-role}" th:object="${user}" method="post" enctype="multipart/form-data">
     <div class="mb-3">
       <label th:text="'Eamil:' + *{email}">Email</label>
         <input type="hidden" th:field="*{email}" class="form-control">
@@ -21,21 +21,40 @@
         <input type="radio" th:field="*{role}" th:value="${role}" th:id="'role-' + ${role}" class="form-check-input">
         <label th:for="'role-' + ${role}" th:text="${#strings.capitalize(role.name().toLowerCase())}"></label>
       </div>
+      <span th:if="${#fields.hasErrors('role')}" th:errors="*{role}" class="text-danger"></span>
     </div>
 
-    <span th:if="${#fields.hasErrors()}" th:text="'Registration Failed'"/>
-    <button type="submit" class="btn btn-primary mt-3">Register</button>
-  </form>
+    <div class="mb-3" id="credential" th:style="${user.role == 'SELLER'} ? 'display: block;' : 'display: none;'">
+      <label for="file" class="form-label">Credential file:</label>
+      <input type="file" class="form-control" id="file" name="file">
+      <span th:if="${#fields.hasErrors('file')}" th:errors="*{file}" class="text-danger">Credential file is required for sellers</span>
+    </div>
 
-  <hr>
-  <p>Already have an account?</p>
-  <a href="/login" class="btn btn-primary">Login</a>
+    <span th:if="${#fields.hasErrors()}" th:text="'Update Failed'"/>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+  </form>
 </div>
 
 <script>
-  $(document).ready(function() {
+  document.addEventListener('DOMContentLoaded', function () {
+    const credential = document.getElementById('credential');
+    const roleInputs = document.querySelectorAll('input[name="role"]');
 
+    roleInputs.forEach(input => {
+      input.addEventListener('change', function () {
+        if (this.value === 'SELLER') {
+          credential.style.display = 'block';
+        } else {
+          credential.style.display = 'none';
+        }
+      });
+    });
 
+    // Trigger change event on page load to set initial state
+    const checkedRole = document.querySelector('input[name="role"]:checked');
+    if (checkedRole) {
+      checkedRole.dispatchEvent(new Event('change'));
+    }
   });
 </script>
 </body>
