@@ -29,7 +29,7 @@ public class WebSecurityConfig  {
                 .authorizeHttpRequests(
                         (requests) -> requests
                                 .requestMatchers("/register","/login", "/", "/oauth2/**").permitAll()
-                                .requestMatchers("/buyer").hasRole("BUYER")
+                                .requestMatchers("/buyer/**").hasRole("BUYER")
                                 .requestMatchers("/seller").hasRole("SELLER")
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/settings").authenticated()
