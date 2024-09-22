@@ -23,8 +23,15 @@
               hx-swap="outerHTML">
 
             <label for="vin">VIN:</label>
-            <input type="text" th:field="*{VIN}" id="vin" class="form-control col-4">
+            <input type="text" th:field="*{VIN}" id="vin" class="form-control col-4"
+            th:attr="hx-post=@{/decodeVin}"
+            hx-trigger="blur"
+            hx-target="#vin-decode">
             <span th:if="${#fields.hasErrors('VIN')}" th:errors="*{VIN}"></span>
+
+            <div id="vin-decode" th:fragment="decodeVin">
+                <p th:text="${message}"></p>
+            </div>
 
             <label for="model">Model:</label>
             <input type="text" th:field="*{model}" id="model" class="form-control col-4">

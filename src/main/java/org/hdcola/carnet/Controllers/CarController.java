@@ -1,5 +1,6 @@
 package org.hdcola.carnet.Controllers;
 
+import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
 import jakarta.validation.Valid;
 import org.hdcola.carnet.Configs.CustomUserDetails;
 import org.hdcola.carnet.Entity.Car;
@@ -78,4 +79,13 @@ public class CarController {
         return mv;
     }
 
+    @PostMapping("/decodeVin")
+    public HtmxResponse decodeVin( Model model) {
+        
+
+        model.addAttribute("message", "VIN decoded");
+        return HtmxResponse.builder()
+                .view("fragments/addCar :: decodeVin")
+                .build();
+    }
 }
