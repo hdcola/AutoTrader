@@ -1,25 +1,34 @@
 package org.hdcola.carnet.Configs;
 
-import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import org.hdcola.carnet.Service.S3Service;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
 
 @Configuration
 public class AwsS3Config {
 
-    @Bean
-    public AmazonS3 s3client() {
-        return AmazonS3ClientBuilder.standard()
-                .withRegion("us-east-1") // Set your region
-                .withCredentials(new DefaultAWSCredentialsProviderChain())
-                .build();
-    }
+    @Value("${aws.region}")
+    private String awsRegion;
+
+    @Value("${aws.access.key")
+    private String awsAccessKey;
+
+    @Value("${aws.secret.key}")
+    private String awsSecretKey;
+
 
     @Bean
-    public S3Service s3Service() {
-        return new S3Service(s3client());
+    public S3Client s3Client() {
+        AwsBasicCredentials awsBasicCredentials = AwsBasicCredentials.create(awsAccessKey, awsSecretKey);
+        Region region = Region.of(awsRegion);
+        return S3Client.builder()
+                .region(region)
+                .credentialsProvider(StaticCredentialsProvider.create(awsBasicCredentials))
+                .build();
     }
 }
