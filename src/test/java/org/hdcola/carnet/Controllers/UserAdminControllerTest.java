@@ -38,20 +38,19 @@ public class UserAdminControllerTest {
     @MockBean
     private UserService userService;
 
-    // TODO: Fix this test
-//    @Test
-//    public void testGetUsers() throws Exception {
-//        UserAdminListDTO user = new UserAdminListDTO();
-//        Mockito.when(userAdminService.getUsers(0, 3)).thenReturn(
-//                new org.springframework.data.domain.PageImpl<>(java.util.List.of(user))
-//        );
-//
-//        mockMvc.perform(get("/admin/users")
-//                .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN")))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("admin/users"))
-//                .andExpect(model().attributeExists("users"));
-//    }
+    @Test
+    public void testGetUsers() throws Exception {
+        UserAdminListDTO user = new UserAdminListDTO();
+        Mockito.when(userAdminService.getUsers(Mockito.anyInt(), Mockito.anyInt())).thenReturn(
+                new org.springframework.data.domain.PageImpl<>(java.util.List.of(user))
+        );
+
+        mockMvc.perform(get("/admin/users")
+                .with(SecurityMockMvcRequestPostProcessors.user("admin").roles("ADMIN")))
+                .andExpect(status().isOk())
+                .andExpect(view().name("admin/users"))
+                .andExpect(model().attributeExists("users"));
+    }
 
 
     @Test
