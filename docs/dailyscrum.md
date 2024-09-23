@@ -269,3 +269,13 @@
 3. Need assistance / figure things out:
 - backend logout POST
   
+---
+
+2024/09/23 Danny
+1. Done / not done sice last Scrum:
+- Admin can see Pageable User Listing
+- Unit Test for users admin BE
+- Save username and useremail in session and show username in menubar
+2. To do until next Scrum:
+- Admin confirm + credentials before any action
+3. Need assistance / figure things out:

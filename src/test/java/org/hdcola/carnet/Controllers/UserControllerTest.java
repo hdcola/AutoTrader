@@ -297,6 +297,7 @@ public class UserControllerTest {
 
         // Perform the GET request with the authentication
         mockMvc.perform(get("/settings")
+                        .sessionAttr("userEmail", "test@example.com")
                         .with(SecurityMockMvcRequestPostProcessors.authentication(authentication)))
                 .andExpect(status().isOk())
                 .andExpect(view().name("settings"))

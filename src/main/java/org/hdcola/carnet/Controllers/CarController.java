@@ -107,14 +107,14 @@ public class CarController {
 
     @GetMapping("/loadCarForm")
     public ModelAndView loadCarForm() {
-        ModelAndView mv = new ModelAndView("fragments/addCar");
+        ModelAndView mv = new ModelAndView("createlisting");
         mv.addObject("car", new Car());
         return mv;
     }
 
     @GetMapping("/loadCarForm/{carId}")
     public ModelAndView updateCarForm(@PathVariable Long carId) {
-        ModelAndView mv = new ModelAndView("fragments/addCar");
+        ModelAndView mv = new ModelAndView("createlisting");
         Car car = carRepo.findById(carId).get();
         mv.addObject("car", car);
         return mv;

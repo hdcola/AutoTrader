@@ -1,6 +1,7 @@
 package org.hdcola.carnet.Controllers;
 
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.hdcola.carnet.Configs.CustomUserDetails;
@@ -91,8 +92,8 @@ public class UserController {
     }
 
     @GetMapping("/choice-role")
-    public String oauthChoiceRole(Model model, Authentication authentication) {
-        String email = UserService.getUserEmail(authentication);
+    public String oauthChoiceRole(Model model, Authentication authentication, HttpSession session) {
+        String email = (String) session.getAttribute("userEmail");
 
         UserOauthChoiceRoleDTO user = new UserOauthChoiceRoleDTO(email, Role.BUYER,null);
         model.addAttribute("user", user);
@@ -101,7 +102,7 @@ public class UserController {
     }
 
     @PostMapping("/choice-role")
-    public String oauthChoiceRole(@Valid UserOauthChoiceRoleDTO user, BindingResult result, Model model, RedirectAttributes rb, Authentication authentication) {
+    public String oauthChoiceRole(@Valid UserOauthChoiceRoleDTO user, BindingResult result, Model model, RedirectAttributes rb, Authentication authentication, HttpSession session) {
         if(user.getRole() == null || (!user.getRole().equals(Role.BUYER) && !user.getRole().equals(Role.SELLER))) {
             result.rejectValue("role", "role.invalid", "Role is invalid");
         }
@@ -119,7 +120,7 @@ public class UserController {
             return "choicerole";
         }
 
-        String email = UserService.getUserEmail(authentication);
+        String email = (String) session.getAttribute("userEmail");
         user.setEmail(email);
         log.debug("User:{}", user);
 
@@ -129,8 +130,8 @@ public class UserController {
     }
 
     @GetMapping("/settings")
-    public String settings(Model model, Authentication authentication) {
-        String email = UserService.getUserEmail(authentication);
+    public String settings(Model model, Authentication authentication, HttpSession session) {
+        String email = (String) session.getAttribute("userEmail");
         UserSettingsDTO user = userService.getUserSettingsDTO(email);
         model.addAttribute("user", user);
         log.debug("User:{}", user);
@@ -139,7 +140,7 @@ public class UserController {
     }
 
     @PostMapping("/settings")
-    public String settings(@Valid UserSettingsDTO user, BindingResult result, Model model, RedirectAttributes rb, Authentication authentication) {
+    public String settings(@Valid UserSettingsDTO user, BindingResult result, Model model, RedirectAttributes rb, Authentication authentication, HttpSession session) {
         if(!user.getPassword().equals(user.getPassword2())) {
             result.rejectValue("password2", "password.mismatch", "Passwords do not match");
         }
@@ -165,7 +166,7 @@ public class UserController {
             return "settings";
         }
 
-        String email = UserService.getUserEmail(authentication);
+        String email = (String) session.getAttribute("userEmail");
         user.setEmail(email);
 
         userService.updateSettings(user);

@@ -15,4 +15,8 @@ public interface CarRepository extends JpaRepository<Car, Long> {
 
     @Query("SELECT c FROM Car c WHERE c.user.email = :email")
     public List<Car> findByUser(String email);
+
+    @Query("SELECT c FROM Car c WHERE c.year BETWEEN :minYear AND :maxYear")
+    List<Car> findByYear(int minYear, int maxYear);
+
 }

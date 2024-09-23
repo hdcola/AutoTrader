@@ -10,6 +10,7 @@
 </head>
 
 <body>
+
 <form th:fragment="addPhotos" th:action="@{/Seller/{id}/upload(id=${car.id})}" th:object="${car}" method="post" enctype="multipart/form-data">
     <input type="file" id="myFile" name="file">
     <input type="submit">
@@ -40,7 +41,5 @@
         <p th:text="${successMessage}" ></p>
         <a th:href="@{/}">Back to All Cars</a>
     </div>
-</div>
-
 </body>
 
