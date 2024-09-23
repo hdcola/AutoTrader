@@ -3,6 +3,8 @@ package org.hdcola.carnet.Service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hdcola.carnet.DTO.DecodedVinDTO;
+import org.hdcola.carnet.Repository.CarRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -13,6 +15,9 @@ public class VinDecodeService {
     private final String API_URL = "https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVin/{vin}?format=json";
     private final WebClient webClient;
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+    @Autowired
+    private CarRepository carRepo;
 
     public VinDecodeService(WebClient.Builder webClientBuilder) {
         this.webClient = webClientBuilder.baseUrl("https://vpic.nhtsa.dot.gov").build();

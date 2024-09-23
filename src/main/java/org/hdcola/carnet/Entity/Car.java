@@ -22,6 +22,7 @@ public class Car
 
     @Size(min = 17, max = 17, message = "VIN must be 17 characters")
     @Vin(message = "VIN must be valid")
+    @Column(nullable = false, unique = true)
     private String VIN;
 
     @ManyToOne

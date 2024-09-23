@@ -52,32 +52,47 @@ public class CarController {
     }
 
     @PostMapping("/addCar")
-    public String addCar(@Valid Car car, BindingResult result, Model model, RedirectAttributes redirAttr) {
+    public HtmxResponse addCar(@Valid Car newCar, BindingResult result, Model model, RedirectAttributes redirAttr) {
         if (result.hasErrors()) {
             result.getAllErrors().forEach(error -> System.out.println(error.toString()));
             model.addAttribute("Success", false);
             model.addAttribute("errors", result.getAllErrors());
-            return "fragments/addCar";
+            return HtmxResponse.builder()
+                    .view("fragments/addCar :: addCar")
+                    .build();
         }
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof CustomUserDetails userDetails) {
             User author = userRepo.findById(userDetails.getId()).get();
-            DecodedVinDTO dto = vinDecodeService.decodeVin(car.getVIN());
+            DecodedVinDTO dto = vinDecodeService.decodeVin(newCar.getVIN());
 
             if (dto != null) {
-                car.setMake(dto.getMake());
-                car.setModel(dto.getModel());
-                car.setYear(dto.getYear());
+                newCar.setMake(dto.getMake());
+                newCar.setModel(dto.getModel());
+                newCar.setYear(dto.getYear());
             }
 
-            car.setUser(author);
-            carRepo.save(car);
+            newCar.setUser(author);
+            carRepo.save(newCar);
         }
 
-        return "seller";
-    }@PostMapping("/decodeVin")
+        model.addAttribute("successMessage", "Car added successfully!");
+        model.addAttribute("car", newCar);
+        return HtmxResponse.builder()
+                .view("fragments/addCar :: addCar")
+                .build();
+    }
+
+    @PostMapping("/decodeVin")
     public HtmxResponse decodeVin(@RequestParam("VIN") String vin, Model model){
+        if (carRepo.findByVIN(vin) != null) {
+            model.addAttribute("message", "Car with this VIN already exists");
+            return HtmxResponse.builder()
+                    .view("fragments/addCar :: decodeVin")
+                    .build();
+        }
+
         String message="";
         if (vin == null || vin.isEmpty()) {
             message = "VIN is empty";
