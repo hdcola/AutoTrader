@@ -85,10 +85,18 @@ a:hover {
 }
 
 .nav-item p {
-    color: #000000;
+    color: #000000 !important;
 }
 
 .nav-item a {
+    color: #000000 !important;
+}
+
+.nav-item span {
+    color: #000000 !important;
+}
+
+.nav-item li {
     color: #000000 !important;
 }
 
@@ -109,4 +117,12 @@ button {
     background-color: #340300;
     border-color: #FBE9D0;
     color: #FBE9D0;
+}
+.navbar {
+    display: flex;
+    align-items: center; /* Vertically center the content */
+    justify-content: space-between; /* Optional: spread out items horizontally */
+}
+.btn-outline-light {
+    text-align: center !important;
 }
