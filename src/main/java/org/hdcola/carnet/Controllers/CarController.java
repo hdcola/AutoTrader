@@ -73,7 +73,7 @@ public class CarController {
         if (vin == null || vin.isEmpty()) {
             message = "VIN is empty";
         } else {
-            message = vinDecodeService.decodeVin(vin);
+            message = vinDecodeService.decodeVin(vin).toString();
         }
         model.addAttribute("message", message);
         return HtmxResponse.builder()

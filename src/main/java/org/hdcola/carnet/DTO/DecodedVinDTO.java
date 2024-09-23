@@ -13,4 +13,8 @@ public class DecodedVinDTO {
     private String make;
     private String model;
     private int year;
+
+    public String toString() {
+        return "Make: " + make + ", Model: " + model + ", Year: " + year;
+    }
 }

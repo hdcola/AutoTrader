@@ -2,6 +2,7 @@ package org.hdcola.carnet.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hdcola.carnet.DTO.DecodedVinDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -17,7 +18,7 @@ public class VinDecodeService {
         this.webClient = webClientBuilder.baseUrl("https://vpic.nhtsa.dot.gov").build();
     }
 
-    public String decodeVin(String vin) {
+    public DecodedVinDTO decodeVin(String vin) {
         try{
             String response = webClient.get()
                     .uri(API_URL, vin)
@@ -43,11 +44,11 @@ public class VinDecodeService {
                     year = node.get("Value").asText();
                 }
             }
-            return "VIN decoded: " + year + " " + make + " " + model;
+            return new DecodedVinDTO(make, model, Integer.parseInt(year));
 
         } catch (Exception e) {
             e.printStackTrace();
-            return "Error decoding VIN";
+            return null;
         }
     }
 }
