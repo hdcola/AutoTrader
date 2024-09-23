@@ -26,7 +26,8 @@
             <input type="text" th:field="*{VIN}" id="vin" class="form-control col-4"
             th:attr="hx-post=@{/decodeVin}"
             hx-trigger="blur"
-            hx-target="#vin-decode">
+            hx-target="#vin-decode"
+            hx-swap="outerHTML">
             <span th:if="${#fields.hasErrors('VIN')}" th:errors="*{VIN}"></span>
 
             <div id="vin-decode" th:fragment="decodeVin">

@@ -7,6 +7,7 @@ import org.hdcola.carnet.Entity.Car;
 import org.hdcola.carnet.Entity.User;
 import org.hdcola.carnet.Repository.CarRepository;
 import org.hdcola.carnet.Repository.UserRepository;
+import org.hdcola.carnet.Service.VinDecodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -31,6 +33,9 @@ public class CarController {
 
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private VinDecodeService vinDecodeService;
 
     @GetMapping("/Seller")
     public String listCars(Model mv) {
@@ -62,6 +67,18 @@ public class CarController {
         }
 
         return "seller";
+    }@PostMapping("/decodeVin")
+    public HtmxResponse decodeVin(@RequestParam("VIN") String vin, Model model){
+        String message="";
+        if (vin == null || vin.isEmpty()) {
+            message = "VIN is empty";
+        } else {
+            message = vinDecodeService.decodeVin(vin);
+        }
+        model.addAttribute("message", message);
+        return HtmxResponse.builder()
+                .view("fragments/addCar :: decodeVin")
+                .build();
     }
 
     @GetMapping("/loadCarForm")
@@ -79,13 +96,5 @@ public class CarController {
         return mv;
     }
 
-    @PostMapping("/decodeVin")
-    public HtmxResponse decodeVin( Model model) {
-        
 
-        model.addAttribute("message", "VIN decoded");
-        return HtmxResponse.builder()
-                .view("fragments/addCar :: decodeVin")
-                .build();
-    }
 }
