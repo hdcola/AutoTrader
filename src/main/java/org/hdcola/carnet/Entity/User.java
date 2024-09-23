@@ -39,7 +39,7 @@ public class User {
 
     private Role role;
 
-    private boolean isVerified = false;
+    private boolean verified = false;
 
     private boolean hasApplied = false;
 

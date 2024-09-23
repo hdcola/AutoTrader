@@ -40,7 +40,7 @@ public class UserAdminServiceTest {
         Page<User> page = new PageImpl<>(Collections.singletonList(user));
         when(userRepository.findAll(pageable)).thenReturn(page);
 
-        Page<UserAdminListDTO> result = userAdminService.getUsers(0, 10);
+        Page<UserAdminListDTO> result = userAdminService.getUsers(0, 10, false);
 
         assertNotNull(result);
         assertEquals(1, result.getTotalElements());
