@@ -276,6 +276,9 @@
 - Admin can see Pageable User Listing
 - Unit Test for users admin BE
 - Save username and useremail in session and show username in menubar
+- Pageable users list
+- Not done Admin confirm + credentials before any action
 2. To do until next Scrum:
 - Admin confirm + credentials before any action
+- Presentation preparation
 3. Need assistance / figure things out:
