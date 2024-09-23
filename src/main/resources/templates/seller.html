@@ -1,7 +1,6 @@
 <html xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en">
 <body>
-<div th:replace="fragments/header"></div>
-<div class="container-fluid d-flex flex-wrap" id="main" sec:authorize="isAuthenticated()">
+<div class="container-fluid d-flex flex-wrap" id="main" th:fragment="sellerHome" hx-get="/Seller">
     <div th:each="car : ${carList}" class="col-3 p-2">
         <div class="card p-2">
             <span class="d-flex w-100 justify-content-between">
@@ -28,7 +27,9 @@
         </div>
     </div>
     <div class="col-3 p-2">
-        <button id="addCar" class="card p-2 d-flex w-100"  hx-get="/loadCarForm" hx-target="#main">
+        <button id="addCar" class="card p-2 d-flex w-100"
+                hx-get="/loadCarForm"
+                hx-target="#main">
             <h1 class="justify-self-center align-self-center">+</h1>
         </button>
     </div>

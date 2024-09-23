@@ -47,23 +47,12 @@
                             </th:block>
                             <th:block sec:authorize="hasRole('SELLER')">
                                 <li class="nav-item" sec:authorize="hasAuthority('SELLER')">You are a Seller</li>
-                                <li class="nav-item">
-                                    <a class="nav-link" th:href="@{/loadCarForm}">Create
-                                        Listing</a><!--TODO: Add directory ~ Create Listing-->
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" th:href="@{/loadCarForm/{carId}}">Edit
-                                        Listing</a><!--TODO: Add directory ~ Edit Listing-->
-                                </li>
                             </th:block>
                             <th:block sec:authorize="hasRole('BUYER')">
                                 <li class="nav-item" sec:authorize="hasAuthority('BUYER')">You are a Buyer</li>
                             </th:block>
                             <li class="nav-item">
                                 <a class="nav-link" th:href="@{/settings}">Settings</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" th:href="@{/Seller}">Seller</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" th:href="@{/logout}">Logout</a>

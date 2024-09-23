@@ -13,6 +13,8 @@
 <div th:insert="~{fragments/header :: header}"></div>
 <h1>User List</h1>
 
+<a th:href="@{/admin/users?showNotConfirmed=true}" th:text="'Not confirmed users(' + ${notConfirmedUsersCount} + ')'">Not confirmed users</a>
+<a th:href="@{/admin/users}" >Show all users</a>
 <table class="container mb-3">
   <thead>
     <tr style="text-align: center;">
@@ -38,6 +40,7 @@
                    hx-confirm="Are you sure?"
                    hx-swap="outerHTML swap:1s"
                 >Delete</button>
+                <a th:if="${user.isNotConfirmed()}">Confirm certificate</a>
             </td>
         </tr>
     </tbody>
