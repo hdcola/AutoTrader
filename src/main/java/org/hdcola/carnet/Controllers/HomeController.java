@@ -12,15 +12,4 @@ public class HomeController {
     public String index() {
         return "index";
     }
-
-    @GetMapping("/buyer")
-    public String buyer() {
-        return "index";
-    }
-
-    @GetMapping("/seller")
-    public String seller() {
-        return "index";
-    }
-    
 }

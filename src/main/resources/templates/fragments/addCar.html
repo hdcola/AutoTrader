@@ -10,13 +10,13 @@
 </head>
 
 <body>
-
-<form th:fragment="addPhotos" th:action="@{/Seller/{id}/upload(id=${car.id})}" th:object="${car}" method="post" enctype="multipart/form-data">
-    <input type="file" id="myFile" name="file">
-    <input type="submit">
-</form>
 <div th:fragment="addCar" id="addCar">
-    <form th:object="${car}"
+    <form th:fragment="addPhotos" th:action="@{/Seller/{id}/upload(id=${car.id})}" th:object="${car}" method="post" enctype="multipart/form-data">
+        <input type="file" id="myFile" name="file">
+        <input type="submit">
+    </form>
+
+    <form class="col-4" th:object="${car}"
           th:attr="hx-post=@{/addCar}"
           hx-target="#addCar">
 
@@ -37,9 +37,14 @@
 
         <button type="submit" class="btn btn-primary mt-3">Add Car</button>
     </form>
-    <div th:if="${successMessage}" class="alert alert-success">
+    <div th:if="${carLoad}">
+        <a th:href="@{/}">Back to All Cars</a>
+    </div>
+    <div th:if="${successMessage}" class="alert alert-success col-4 mt-2">
         <p th:text="${successMessage}" ></p>
         <a th:href="@{/}">Back to All Cars</a>
     </div>
+</div>
+
 </body>
 
