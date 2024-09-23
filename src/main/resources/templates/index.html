@@ -17,9 +17,6 @@
     <div class="big-container">
         <h4>Welcome to CarNet.</h4>
     </div>
-    <div sec:authorize="!isAuthenticated()">
-        <div th:insert="~{fragments/login :: login}"></div>
-    </div>
     <div sec:authorize="hasRole('BUYER')"
          hx-get="/buyer"
          hx-trigger="load"
