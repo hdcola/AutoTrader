@@ -3,6 +3,7 @@ package org.hdcola.carnet.Handler;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.hdcola.carnet.DTO.UserRegisterDTO;
 import org.hdcola.carnet.Entity.Role;
 import org.hdcola.carnet.Service.UserService;
@@ -32,7 +33,9 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
         String provider = oauthToken.getAuthorizedClientRegistrationId();
 
-
+        HttpSession session = request.getSession();
+        session.setAttribute("userEmail", email);
+        session.setAttribute("userName", name);
 
         if ( userService.existsByEmail(email) ) {
             userService.addProvider(email, provider);
