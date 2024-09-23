@@ -1,6 +1,6 @@
 <html xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en">
 <body>
-<div class="container-fluid d-flex flex-wrap" id="main" th:fragment="sellerHome">
+<div class="container-fluid d-flex flex-wrap" id="main" th:fragment="sellerHome" hx-get="/Seller">
     <div th:each="car : ${carList}" class="col-3 p-2">
         <div class="card p-2">
             <span class="d-flex w-100 justify-content-between">
