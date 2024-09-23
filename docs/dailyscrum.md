@@ -282,3 +282,13 @@
 - Admin confirm + credentials before any action
 - Presentation preparation
 3. Need assistance / figure things out:
+
+2024/09/23 Michael
+1. Done/ not done since last Scrum:
+- Finished all css for header and admin
+- pagination on admin
+2. To do until next Scrum:
+- pagination on listings?
+- flash messages
+- css on final functions
+3. Need assistance / figure things out:
