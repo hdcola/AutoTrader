@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.hdcola.carnet.Entity.Role;
+import org.springframework.web.multipart.MultipartFile;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -23,5 +24,6 @@ public class UserRegisterDTO extends UserSettingsDTO {
     @NotBlank(message = "Password is required")
     @Size(min = 6, max=32, message = "Password must be between 6 and 32 characters")
     private String password;
+
 
 }

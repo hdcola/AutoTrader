@@ -3,6 +3,7 @@ package org.hdcola.carnet.Service;
 import lombok.NoArgsConstructor;
 import org.hdcola.carnet.DTO.UserOauthChoiceRoleDTO;
 import org.hdcola.carnet.DTO.UserRegisterDTO;
+import org.hdcola.carnet.DTO.UserSettingsDTO;
 import org.hdcola.carnet.Entity.Role;
 import org.hdcola.carnet.Entity.User;
 import org.hdcola.carnet.Repository.UserRepository;
@@ -12,6 +13,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -27,6 +29,9 @@ class UserServiceTests {
 
     @Mock
     private  EmailService emailService;
+
+    @Mock
+    private S3Service s3Service;
 
     @InjectMocks
     private UserService userService;
@@ -185,5 +190,70 @@ class UserServiceTests {
                 .hasMessage("User not found");
 
         verify(userRepository, never()).save(any(User.class));
+    }
+
+    @Test
+    void testGetUserSettingsDTO_UserExists() {
+        String email = "test@example.com";
+        User user = new User();
+        user.setEmail(email);
+        user.setName("Test User");
+        user.setRole(Role.BUYER);
+        user.setVerified(true);
+        user.setHasApplied(true);
+        user.setId(1L);
+
+        when(userRepository.findByEmail(email)).thenReturn(user);
+        when(s3Service.getBuyerFileUrl(user.getId())).thenReturn("https://s3.amazonaws.com/bucket/buyer1");
+
+        UserSettingsDTO userSettingsDTO = userService.getUserSettingsDTO(email);
+
+        assertThat(userSettingsDTO.getEmail()).isEqualTo(email);
+        assertThat(userSettingsDTO.getName()).isEqualTo("Test User");
+        assertThat(userSettingsDTO.getRole()).isEqualTo(Role.BUYER);
+        assertThat(userSettingsDTO.isVerified()).isTrue();
+        assertThat(userSettingsDTO.getCredentialUrl()).isEqualTo("https://s3.amazonaws.com/bucket/buyer1");
+    }
+
+    @Test
+    void testGetUserSettingsDTO_UserDoesNotExist() {
+        String email = "nonexistent@example.com";
+
+        when(userRepository.findByEmail(email)).thenReturn(null);
+
+        assertThatThrownBy(() -> userService.getUserSettingsDTO(email))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("User not found");
+    }
+
+    @Test
+    void testUpdateSettings_WithFile() {
+        String email = "test@example.com";
+        User dbUser = new User();
+        dbUser.setEmail(email);
+        dbUser.setRole(Role.BUYER);
+        dbUser.setId(1L);
+
+        UserSettingsDTO userSettingsDTO = new UserSettingsDTO();
+        userSettingsDTO.setEmail(email);
+        userSettingsDTO.setName("Updated Name");
+        userSettingsDTO.setRole(Role.SELLER);
+        userSettingsDTO.setPassword("newPassword");
+        userSettingsDTO.setPassword2("newPassword");
+        userSettingsDTO.setFile(mock(MultipartFile.class));
+
+        when(userRepository.findByEmail(email)).thenReturn(dbUser);
+        when(passwordEncoder.encode("newPassword")).thenReturn("encodedPassword");
+        when(s3Service.uploadBuyerFile(dbUser.getId(), userSettingsDTO.getFile())).thenReturn(true);
+
+        userService.updateSettings(userSettingsDTO);
+
+        verify(userRepository, times(1)).save(argThat(user ->
+                user.getEmail().equals(email) &&
+                        user.getName().equals("Updated Name") &&
+                        user.getRole().equals(Role.SELLER) &&
+                        user.getPassword().equals("encodedPassword") &&
+                        user.isHasApplied()
+        ));
     }
 }
