@@ -136,13 +136,4 @@ public class UserService {
         }
         return user.getRole();
     }
-
-    public static String getUserEmail(Authentication authentication) {
-        if (authentication.getPrincipal() instanceof OAuth2User) {
-            return ((OAuth2User) authentication.getPrincipal()).getAttribute("email");
-        } else if (authentication.getPrincipal() instanceof CustomUserDetails) {
-            return ((CustomUserDetails) authentication.getPrincipal()).getUsername();
-        }
-        return null;
-    }
 }
