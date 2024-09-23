@@ -8,13 +8,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class VinDecodeResponseDTO {
+public class DecodedVinDTO {
 
-    private List<Result> Results;
-
-    @Data
-    public static class Result {
-        private String Value;
-        private String Variable;
-    }
+    private String make;
+    private String model;
+    private int year;
 }

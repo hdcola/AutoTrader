@@ -2,9 +2,6 @@ package org.hdcola.carnet.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hdcola.carnet.DTO.VinDecodeResponseDTO;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -21,7 +18,7 @@ public class VinDecodeService {
     }
 
     public String decodeVin(String vin) {
-        try {
+        try{
             String response = webClient.get()
                     .uri(API_URL, vin)
                     .retrieve()
@@ -30,8 +27,26 @@ public class VinDecodeService {
             System.out.println(response);
             JsonNode jsonResponse = objectMapper.readTree(response);
 
-            return jsonResponse.toString();
+            JsonNode array = jsonResponse.get("Results");
+            String make = "";
+            String model = "";
+            String year = "";
+            for (int i = 0; i < array.size(); i++) {
+                JsonNode node = array.get(i);
+                String var = node.get("Variable").asText();
+
+                if (var.equals("Make")) {
+                    make = node.get("Value").asText();
+                } else if (var.equals("Model")) {
+                    model = node.get("Value").asText();
+                } else if (var.equals("Model Year")) {
+                    year = node.get("Value").asText();
+                }
+            }
+            return "VIN decoded: " + year + " " + make + " " + model;
+
         } catch (Exception e) {
+            e.printStackTrace();
             return "Error decoding VIN";
         }
     }
