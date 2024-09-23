@@ -115,6 +115,12 @@
             <artifactId>s3</artifactId>
             <version>2.28.6</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version>
+        </dependency>
     </dependencies>
 
     <build>

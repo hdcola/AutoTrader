@@ -4,10 +4,7 @@ import org.hdcola.carnet.Entity.CarPicture;
 import org.hdcola.carnet.Handler.OAuth2LoginSuccessHandler;
 import org.hdcola.carnet.Repository.CarRepository;
 import org.hdcola.carnet.Repository.UserRepository;
-import org.hdcola.carnet.Service.CarPictureService;
-import org.hdcola.carnet.Service.S3Service;
-import org.hdcola.carnet.Service.UserAdminService;
-import org.hdcola.carnet.Service.UserService;
+import org.hdcola.carnet.Service.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -33,6 +30,9 @@ public class HomeControllerTest {
 
     @MockBean
     private CarPictureService carPictureService;
+
+    @MockBean
+    private VinDecodeService vinDecodeService;
 
     @MockBean
     private UserService userService;
