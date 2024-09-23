@@ -41,7 +41,7 @@ public class UserAdminControllerTest {
     @Test
     public void testGetUsers() throws Exception {
         UserAdminListDTO user = new UserAdminListDTO();
-        Mockito.when(userAdminService.getUsers(Mockito.anyInt(), Mockito.anyInt())).thenReturn(
+        Mockito.when(userAdminService.getUsers(Mockito.anyInt(), Mockito.anyInt(), Mockito.anyBoolean())).thenReturn(
                 new org.springframework.data.domain.PageImpl<>(java.util.List.of(user))
         );
 

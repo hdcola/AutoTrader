@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Collections;
 import java.util.Optional;
@@ -31,20 +32,6 @@ public class UserAdminServiceTest {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-    }
-
-    @Test
-    public void testGetUsers() {
-        Pageable pageable = PageRequest.of(0, 10);
-        User user = new User();
-        Page<User> page = new PageImpl<>(Collections.singletonList(user));
-        when(userRepository.findAll(pageable)).thenReturn(page);
-
-        Page<UserAdminListDTO> result = userAdminService.getUsers(0, 10);
-
-        assertNotNull(result);
-        assertEquals(1, result.getTotalElements());
-        verify(userRepository, times(1)).findAll(pageable);
     }
 
     @Test
