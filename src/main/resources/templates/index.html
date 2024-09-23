@@ -17,11 +17,15 @@
     <div class="big-container">
         <h4>Welcome to CarNet.</h4>
     </div>
-    <div sec:authorize="hasRole('NONE')">
-        <div th:insert="~{fragments/buyerindex :: buyerview}"></div>
+    <div sec:authorize="!isAuthenticated()">
+        <div th:insert="~{fragments/login :: login}"></div>
     </div>
-    <div sec:authorize="hasRole('BUYER')">
-        <div th:insert="~{fragments/buyerindex :: buyerview}"></div>
+    <div sec:authorize="hasRole('BUYER')"
+         hx-get="/buyer"
+         hx-trigger="load"
+         hx-target="this"
+         id="mainBuyer">
+        <div th:insert="~{buyer :: buyerHome}"></div>
     </div>
     <div sec:authorize="hasRole('SELLER')" hx-get="/Seller"
     hx-trigger="load" id="main">

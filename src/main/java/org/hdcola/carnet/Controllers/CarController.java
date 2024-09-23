@@ -38,6 +38,28 @@ public class CarController {
     @Autowired
     private VinDecodeService vinDecodeService;
 
+    @GetMapping("/buyer")
+    public HtmxResponse listAllCars(Model mv) {
+        List<Car> carList= carRepo.findAll();
+        mv.addAttribute("carList", carList);
+        mv.addAttribute("Login", true);
+
+        return HtmxResponse.builder()
+                .view("buyer :: buyerHome")
+                .build();
+    }
+
+    @GetMapping("/viewCar/{carId}")
+    public HtmxResponse viewCar(@PathVariable Long carId, Model mv) {
+        Car car = carRepo.findById(carId).get();
+        mv.addAttribute("carMake", car.getMake());
+        mv.addAttribute("carModel", car.getModel());
+        mv.addAttribute("carYear", car.getYear());
+        return HtmxResponse.builder()
+                .view("buyer :: viewCar")
+                .build();
+    }
+
     @GetMapping("/Seller")
     public String listCars(Model mv) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -90,13 +112,6 @@ public class CarController {
 
     @PostMapping("/decodeVin")
     public HtmxResponse decodeVin(@RequestParam("VIN") String vin, Model model){
-        if (carRepo.findByVIN(vin) != null) {
-            model.addAttribute("message", "Car with this VIN already exists");
-            return HtmxResponse.builder()
-                    .view("fragments/addCar :: addCar")
-                    .build();
-        }
-
         String message="";
         if (vin == null || vin.isEmpty()) {
             message = "VIN is empty";

@@ -24,6 +24,10 @@ public class VinDecodeService {
     }
 
     public DecodedVinDTO decodeVin(String vin) {
+        if (vin == null){
+            return null;
+        }
+
         try{
             String response = webClient.get()
                     .uri(API_URL, vin)
