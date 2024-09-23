@@ -1,6 +1,6 @@
 <html xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="en">
 <body>
-<div class="container-fluid d-flex flex-wrap" id="main" th:fragment="sellerHome" hx-get="/Seller">
+<div class="container-fluid d-flex flex-wrap" id="main" th:fragment="sellerHome">
     <div th:each="car : ${carList}" class="col-3 p-2">
         <div class="card p-2">
             <span class="d-flex w-100 justify-content-between">
@@ -34,35 +34,5 @@
         </button>
     </div>
 </div>
-<div class="container" sec:authorize="!isAuthenticated()">
-    <h3>PLease Log in</h3>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-   $(document).ready(function(){
-       console.log("ready");
-
-       $("[id^='car']").each(function(){
-           $(this).hide();
-       });
-
-       $(".triple-dot").click(function(event){
-          let carId = $(this).data("car-id");
-          let carMenu = $("#car" + carId);
-          $("[id^='car']").not(carMenu).hide();
-          carMenu.toggle();
-          event.stopPropagation();
-
-          $(document).click(function(event) {
-               if (!$(event.target).closest(carMenu).length) {
-                   $(carMenu).hide(); // Hide all car menus if clicked outside
-               }
-           });
-       });
-
-
-   });
-</script>
 </body>
 </html>

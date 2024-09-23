@@ -62,6 +62,10 @@ public class CarController {
                     .build();
         }
 
+        if (carRepo.findByVIN(newCar.getVIN()) != null) {
+            result.rejectValue("VIN", "VIN.exists", "VIN is already in use");
+        }
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof CustomUserDetails userDetails) {
             User author = userRepo.findById(userDetails.getId()).get();
@@ -89,7 +93,7 @@ public class CarController {
         if (carRepo.findByVIN(vin) != null) {
             model.addAttribute("message", "Car with this VIN already exists");
             return HtmxResponse.builder()
-                    .view("fragments/addCar :: decodeVin")
+                    .view("fragments/addCar :: addCar")
                     .build();
         }
 
@@ -106,18 +110,21 @@ public class CarController {
     }
 
     @GetMapping("/loadCarForm")
-    public ModelAndView loadCarForm() {
-        ModelAndView mv = new ModelAndView("createlisting");
-        mv.addObject("car", new Car());
-        return mv;
+    public HtmxResponse loadCarForm(Model model) {
+        model.addAttribute("car", new Car());
+        return HtmxResponse.builder()
+                .view("fragments/addCar :: addCar")
+                .build();
     }
 
     @GetMapping("/loadCarForm/{carId}")
-    public ModelAndView updateCarForm(@PathVariable Long carId) {
-        ModelAndView mv = new ModelAndView("createlisting");
+    public HtmxResponse updateCarForm(@PathVariable Long carId, Model mv) {
         Car car = carRepo.findById(carId).get();
-        mv.addObject("car", car);
-        return mv;
+        mv.addAttribute("car", car);
+        mv.addAttribute("carLoad", true);
+        return HtmxResponse.builder()
+                .view("fragments/addCar :: addCar")
+                .build();
     }
 
 
