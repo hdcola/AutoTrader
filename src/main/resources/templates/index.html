@@ -70,5 +70,30 @@
     <div th:insert="~{fragments/footer :: footer}"></div>
 </body>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        console.log("ready");
 
+        $("[id^='car']").each(function(){
+            $(this).hide();
+        });
+
+        $(".triple-dot").click(function(event){
+            let carId = $(this).data("car-id");
+            let carMenu = $("#car" + carId);
+            $("[id^='car']").not(carMenu).hide();
+            carMenu.toggle();
+            event.stopPropagation();
+
+            $(document).click(function(event) {
+                if (!$(event.target).closest(carMenu).length) {
+                    $(carMenu).hide(); // Hide all car menus if clicked outside
+                }
+            });
+        });
+
+
+    });
+</script>
 </html>
