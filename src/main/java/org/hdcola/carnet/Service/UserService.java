@@ -1,12 +1,15 @@
 package org.hdcola.carnet.Service;
 
+import org.hdcola.carnet.Configs.CustomUserDetails;
 import org.hdcola.carnet.DTO.UserOauthChoiceRoleDTO;
 import org.hdcola.carnet.DTO.UserRegisterDTO;
 import org.hdcola.carnet.DTO.UserSettingsDTO;
 import org.hdcola.carnet.Entity.Role;
 import org.hdcola.carnet.Entity.User;
 import org.hdcola.carnet.Repository.UserRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,10 +20,13 @@ public class UserService {
 
     private final EmailService emailService;
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, EmailService emailService) {
+    private final S3Service s3Service;
+
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, EmailService emailService, S3Service s3Service) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.emailService = emailService;
+        this.s3Service = s3Service;
     }
 
     public void register(UserRegisterDTO user) {
@@ -73,6 +79,14 @@ public class UserService {
         if(dbUser == null) {
             throw new IllegalArgumentException("User not found");
         }
+
+        if(user.isFileSelected()){
+            String keyName = "buyer" + dbUser.getId().toString();
+            if(s3Service.uploadBuyerFile(dbUser.getId(), user.getFile())) {
+                dbUser.setHasApplied(true);
+            }
+        }
+
         dbUser.setRole(user.getRole());
         userRepository.save(dbUser);
 
@@ -88,6 +102,10 @@ public class UserService {
         userSettingsDTO.setEmail(user.getEmail());
         userSettingsDTO.setName(user.getName());
         userSettingsDTO.setRole(user.getRole());
+        userSettingsDTO.setVerified(user.isVerified());
+        if(user.isHasApplied()){
+            userSettingsDTO.setCredentialUrl(s3Service.getBuyerFileUrl(user.getId()));
+        }
         return userSettingsDTO;
     }
 
@@ -102,6 +120,12 @@ public class UserService {
             String password = passwordEncoder.encode(user.getPassword());
             dbUser.setPassword(password);
         }
+        if(user.isFileSelected()){
+            String keyName = "buyer" + dbUser.getId().toString();
+            if(s3Service.uploadBuyerFile(dbUser.getId(), user.getFile())) {
+                dbUser.setHasApplied(true);
+            }
+        }
         userRepository.save(dbUser);
     }
 
@@ -111,5 +135,14 @@ public class UserService {
             throw new IllegalArgumentException("User not found");
         }
         return user.getRole();
+    }
+
+    public static String getUserEmail(Authentication authentication) {
+        if (authentication.getPrincipal() instanceof OAuth2User) {
+            return ((OAuth2User) authentication.getPrincipal()).getAttribute("email");
+        } else if (authentication.getPrincipal() instanceof CustomUserDetails) {
+            return ((CustomUserDetails) authentication.getPrincipal()).getUsername();
+        }
+        return null;
     }
 }

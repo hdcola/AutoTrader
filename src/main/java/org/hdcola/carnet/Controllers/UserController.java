@@ -3,6 +3,7 @@ package org.hdcola.carnet.Controllers;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.hdcola.carnet.Configs.CustomUserDetails;
 import org.hdcola.carnet.DTO.UserOauthChoiceRoleDTO;
 import org.hdcola.carnet.DTO.UserRegisterDTO;
 import org.hdcola.carnet.DTO.UserSettingsDTO;
@@ -91,10 +92,9 @@ public class UserController {
 
     @GetMapping("/choice-role")
     public String oauthChoiceRole(Model model, Authentication authentication) {
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        String email = oAuth2User.getAttribute("email");
+        String email = UserService.getUserEmail(authentication);
 
-        UserOauthChoiceRoleDTO user = new UserOauthChoiceRoleDTO(email, Role.BUYER);
+        UserOauthChoiceRoleDTO user = new UserOauthChoiceRoleDTO(email, Role.BUYER,null);
         model.addAttribute("user", user);
         model.addAttribute("roles", List.of(Role.BUYER, Role.SELLER));
         return "choicerole";
@@ -102,11 +102,12 @@ public class UserController {
 
     @PostMapping("/choice-role")
     public String oauthChoiceRole(@Valid UserOauthChoiceRoleDTO user, BindingResult result, Model model, RedirectAttributes rb, Authentication authentication) {
-        if(user.getRole() == null ){
-            result.rejectValue("role", "role.required", "Role is required");
-        }
         if(user.getRole() == null || (!user.getRole().equals(Role.BUYER) && !user.getRole().equals(Role.SELLER))) {
             result.rejectValue("role", "role.invalid", "Role is invalid");
+        }
+
+        if (user.getRole().equals(Role.SELLER) && !user.isFileSelected()) {
+            result.rejectValue("file", "file.required", "Credential file is required for sellers");
         }
 
         if(result.hasErrors()) {
@@ -114,12 +115,13 @@ public class UserController {
             log.debug("User:{}", user);
             model.addAttribute("org.springframework.validation.BindingResult.user", result);
             model.addAttribute("user", user);
+            model.addAttribute("roles", List.of(Role.BUYER, Role.SELLER));
             return "choicerole";
         }
 
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        String email = oAuth2User.getAttribute("email");
+        String email = UserService.getUserEmail(authentication);
         user.setEmail(email);
+        log.debug("User:{}", user);
 
         userService.updateRole(user);
         rb.addFlashAttribute("message", "Registration successful. Please login.");
@@ -128,11 +130,10 @@ public class UserController {
 
     @GetMapping("/settings")
     public String settings(Model model, Authentication authentication) {
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        String email = oAuth2User.getAttribute("email");
-
+        String email = UserService.getUserEmail(authentication);
         UserSettingsDTO user = userService.getUserSettingsDTO(email);
         model.addAttribute("user", user);
+        log.debug("User:{}", user);
         model.addAttribute("roles", List.of(Role.BUYER, Role.SELLER));
         return "settings";
     }
@@ -147,6 +148,10 @@ public class UserController {
             result.rejectValue("role", "role.invalid", "Role is invalid");
         }
 
+        if (user.getRole().equals(Role.SELLER) && !user.isFileSelected()) {
+            result.rejectValue("file", "file.required", "Credential file is required for sellers");
+        }
+
         if(!user.getPassword().isBlank() && (user.getPassword().length() < 6 || user.getPassword().length() > 32)) {
             result.rejectValue("password", "password.invalid", "Password must be between 6 and 32 characters");
         }
@@ -156,11 +161,11 @@ public class UserController {
             log.debug("User:{}", user);
             model.addAttribute("org.springframework.validation.BindingResult.user", result);
             model.addAttribute("user", user);
+            model.addAttribute("roles", List.of(Role.BUYER, Role.SELLER));
             return "settings";
         }
 
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        String email = oAuth2User.getAttribute("email");
+        String email = UserService.getUserEmail(authentication);
         user.setEmail(email);
 
         userService.updateSettings(user);

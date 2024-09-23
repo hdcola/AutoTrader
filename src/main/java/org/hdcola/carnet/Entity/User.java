@@ -38,5 +38,10 @@ public class User {
     private String oauth_provider;
 
     private Role role;
+
+    private boolean isVerified = false;
+
+    private boolean hasApplied = false;
+
 }
 

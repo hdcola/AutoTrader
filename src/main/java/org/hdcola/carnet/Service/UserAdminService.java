@@ -1,6 +1,7 @@
 package org.hdcola.carnet.Service;
 
 import org.hdcola.carnet.DTO.UserAdminListDTO;
+import org.hdcola.carnet.Entity.User;
 import org.hdcola.carnet.Repository.UserRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,9 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserAdminService {
     private final UserRepository userRepository;
+    private final S3Service s3Service;
 
-    public UserAdminService(UserRepository userRepository) {
+    public UserAdminService(UserRepository userRepository, S3Service s3Service) {
         this.userRepository = userRepository;
+        this.s3Service = s3Service;
     }
 
     public Page<UserAdminListDTO> getUsers(int page, int size) {
@@ -21,6 +24,11 @@ public class UserAdminService {
 
     public void deleteUser(Long id) {
         if(userRepository.existsById(id)) {
+            userRepository.findById(id).ifPresent(u ->{
+                if(u.isHasApplied()){
+                    s3Service.deleteBuyerFile(id);
+                }
+            });
             userRepository.deleteById(id);
         }
     }
