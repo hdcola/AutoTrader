@@ -13,8 +13,8 @@
 <div th:insert="~{fragments/header :: header}"></div>
 <h1>User List</h1>
 
-<a th:href="@{/admin/users?showNotConfirmed=true}" th:text="'Not confirmed users(' + ${notConfirmedUsersCount} + ')'">Not confirmed users</a>
-<a th:href="@{/admin/users}" >Show all users</a>
+<a class="btn btn-primary btn-sm" th:href="@{/admin/users?showNotConfirmed=true}" th:text="'Not confirmed users(' + ${notConfirmedUsersCount} + ')'">Not confirmed users</a>
+<a class="btn btn-secondary btn-sm" th:href="@{/admin/users}" >Show all users</a>
 <table class="container mb-3">
   <thead>
     <tr style="text-align: center;">
@@ -22,6 +22,7 @@
         <th>Name</th>
         <th>Role</th>
         <th>Action</th>
+        <th>Certificate Status</th>
     </tr>
   </thead>
     <tbody hx-swap="outerHTML" hx-target="closest .user-item" style="text-align: center;">
@@ -40,7 +41,10 @@
                    hx-confirm="Are you sure?"
                    hx-swap="outerHTML swap:1s"
                 >Delete</button>
-                <a th:if="${user.isNotConfirmed()}">Confirm certificate</a>
+            </td>
+            <td>
+                <a class="emergency" th:if="${user.isNotConfirmed()}">Confirm certificate!!!</a>
+                <a th:if="${!user.isNotConfirmed()}">Certificate confirmed</a>
             </td>
         </tr>
     </tbody>
@@ -48,16 +52,16 @@
 <!-- Page  -->
 <div class="d-flex justify-content-center align-items-center">
     <span th:if="${currentPage > 0}">
-        <a th:href="@{/admin/users(page=${currentPage - 1}, size=${users.size})}" class="btn btn-outline-light btn-sm me-1">Previous</a>
+        <a th:href="@{/admin/users(page=${currentPage - 1}, size=${users.size})}" class="btn btn-outline-primary btn-sm me-1">Previous</a>
     </span>
 
     <span th:each="i : ${#numbers.sequence(0, users.totalPages - 1)}">
         <a th:href="@{/admin/users(page=${i}, size=${users.size})}"
-           th:text="${i + 1}" th:classappend="${i == currentPage} ? 'active' : ''" class="btn btn-outline-light btn-sm me-1">Page</a>
+           th:text="${i + 1}" th:classappend="${i == currentPage} ? 'active' : ''" class="btn btn-outline-primary btn-sm me-1">Page</a>
     </span>
 
     <span th:if="${currentPage < users.totalPages - 1}">
-        <a th:href="@{/admin/users(page=${currentPage + 1}, size=${users.size})}" class="btn btn-outline-light btn-sm me-1">Next</a>
+        <a th:href="@{/admin/users(page=${currentPage + 1}, size=${users.size})}" class="btn btn-outline-primary btn-sm me-1">Next</a>
     </span>
 </div>
 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" id="csrf"/>
