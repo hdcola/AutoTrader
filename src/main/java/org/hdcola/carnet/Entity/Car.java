@@ -28,12 +28,7 @@ public class Car
     @JoinColumn(name = "user_id")
     private User user;
 
-    @NotBlank(message = "Make is mandatory")
     private String make;
-
-    @NotBlank(message = "Model is mandatory")
     private String model;
-
-    @NotNull(message = "Year is mandatory")
     private int year;
 }

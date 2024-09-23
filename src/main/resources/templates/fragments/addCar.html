@@ -34,7 +34,7 @@
                 <p th:text="${message}"></p>
             </div>
 
-            <label for="model">Model:</label>
+<!--            <label for="model">Model:</label>
             <input type="text" th:field="*{model}" id="model" class="form-control col-4">
             <span th:if="${#fields.hasErrors('model')}" th:errors="*{model}"></span>
 
@@ -45,7 +45,7 @@
             <label for="year">Year:</label>
             <input type="number" th:field="*{year}" id="year" min="1900" max="2100" class="form-control col-4">
             <span th:if="${#fields.hasErrors('year')}" th:errors="*{year}"></span>
-
+-->
             <input type="hidden" th:field="*{id}"/>
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 

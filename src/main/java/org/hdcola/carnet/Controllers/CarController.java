@@ -3,6 +3,7 @@ package org.hdcola.carnet.Controllers;
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
 import jakarta.validation.Valid;
 import org.hdcola.carnet.Configs.CustomUserDetails;
+import org.hdcola.carnet.DTO.DecodedVinDTO;
 import org.hdcola.carnet.Entity.Car;
 import org.hdcola.carnet.Entity.User;
 import org.hdcola.carnet.Repository.CarRepository;
@@ -62,6 +63,14 @@ public class CarController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null && auth.getPrincipal() instanceof CustomUserDetails userDetails) {
             User author = userRepo.findById(userDetails.getId()).get();
+            DecodedVinDTO dto = vinDecodeService.decodeVin(car.getVIN());
+
+            if (dto != null) {
+                car.setMake(dto.getMake());
+                car.setModel(dto.getModel());
+                car.setYear(dto.getYear());
+            }
+
             car.setUser(author);
             carRepo.save(car);
         }
