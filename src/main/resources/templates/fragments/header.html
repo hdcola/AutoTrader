@@ -32,7 +32,7 @@
                             </li>
                         </th:block>
                         <th:block sec:authorize="isAuthenticated()">
-                            <p class="nav-item">Welcome, <span sec:authentication="name">User</span>!</p>
+                            <p class="nav-item">Welcome, <span th:text="${session.userName}">User Name</span>!</p>
                             <th:block sec:authorize="hasRole('ADMIN')">
                                 <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">You are an Admin</li>
                                 <li class="nav-item">
