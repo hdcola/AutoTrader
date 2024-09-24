@@ -132,6 +132,7 @@ public class UserController {
     @GetMapping("/settings")
     public String settings(Model model, Authentication authentication, HttpSession session) {
         String email = (String) session.getAttribute("userEmail");
+        log.debug("Email:{}", email);
         UserSettingsDTO user = userService.getUserSettingsDTO(email);
         model.addAttribute("user", user);
         log.debug("User:{}", user);
