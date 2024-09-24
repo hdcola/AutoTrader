@@ -136,4 +136,12 @@ public class UserService {
         }
         return user.getRole();
     }
+
+    public String getUserName(String userEmail) {
+        User user = userRepository.findByEmail(userEmail);
+        if(user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+        return user.getName();
+    }
 }

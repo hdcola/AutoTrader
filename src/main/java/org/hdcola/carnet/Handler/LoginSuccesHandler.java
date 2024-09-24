@@ -19,6 +19,7 @@ public class LoginSuccesHandler implements AuthenticationSuccessHandler {
         log.debug("Login Success {} ", userDetails.getUsername());
         userDetails.getAuthorities().forEach(role -> log.debug("Role: {}", role.getAuthority()));
         // set user information in session
+        log.debug("Setting user information in session {} , {}", userDetails.getUsername(), userDetails.getName());
         HttpSession session = request.getSession();
         session.setAttribute("userEmail", userDetails.getUsername());
         session.setAttribute("userName", userDetails.getName());
